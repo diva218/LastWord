@@ -37,3 +37,4 @@ def test_contacts_renders(client):
     assert "Sarah Vance" in html
     assert "Michael Chen" in html
     assert "DELIVERY READY" in html
+

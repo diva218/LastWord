@@ -37,3 +37,4 @@ def test_audit_renders(client):
     assert "Tamper-Proof Audit Trail" in html
     assert "EVENTBRIDGE_SCAN_CYCLE" in html
     assert "1,440 Scans / Day" in html
+

@@ -268,38 +268,47 @@ def release(token=None):
 
 
 @switch_bp.route("/checkin", methods=["POST", "GET"])
-def checkin():
-    """Manual heartbeat check-in trigger."""
+@switch_bp.route("/checkin/<token>", methods=["POST", "GET"])
+def checkin(token=None):
+    """Manual heartbeat check-in trigger and confirmation portal."""
 
     user_id = session.get("user_id")
     now = datetime.utcnow()
+    checked_in = False
 
-    if user_id:
-        user = User.query.get(user_id)
-        if user:
-            switch = Switch.query.filter_by(user_id=user.id).first()
-            if switch:
-                switch.last_checkin = now
-                switch.state = "ACTIVE"
-                if switch.interval_s:
-                    switch.next_deadline = now + timedelta(seconds=switch.interval_s)
-                audit = AuditLog(
-                    user_id=user.id,
-                    action="MANUAL_CHECKIN",
-                    metadata_json='{"source": "dashboard", "status": "ACTIVE"}',
-                    created_at=now,
-                )
-                db.session.add(audit)
-                db.session.commit()
+    if request.method == "POST" or request.args.get("pulse") == "1":
+        if user_id:
+            user = User.query.get(user_id)
+            if user:
+                switch = Switch.query.filter_by(user_id=user.id).first()
+                if switch:
+                    switch.last_checkin = now
+                    switch.state = "ACTIVE"
+                    if switch.interval_s:
+                        switch.next_deadline = now + timedelta(seconds=switch.interval_s)
+                    audit = AuditLog(
+                        user_id=user.id,
+                        action="MANUAL_CHECKIN",
+                        metadata_json='{"source": "checkin_page", "status": "ACTIVE"}',
+                        created_at=now,
+                    )
+                    db.session.add(audit)
+                    db.session.commit()
+        checked_in = True
 
-    if request.headers.get("X-Requested-With") == "XMLHttpRequest" or request.is_json:
-        return jsonify({
-            "status": "ok",
-            "message": "Checked in successfully",
-            "timestamp": now.isoformat(),
-        }), 200
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest" or request.is_json:
+            return jsonify({
+                "status": "ok",
+                "message": "Checked in successfully",
+                "timestamp": now.isoformat(),
+            }), 200
 
-    return redirect(url_for("switch.dashboard"))
+    return render_template(
+        "checkin.html",
+        checked_in=checked_in,
+        token=token,
+        active_page="checkin",
+    )
 
 
 @switch_bp.route("/health", methods=["GET"])

@@ -38,3 +38,4 @@ def test_release_renders(client):
     assert "Sarah Vance" in html
     assert "DECRYPTED (AES-256)" in html
     assert "tok_test_123" in html
+

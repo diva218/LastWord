@@ -37,3 +37,4 @@ def test_vault_renders(client):
     assert "KMS ENVELOPE ENCRYPTION" in html
     assert "Bitwarden Master Recovery" in html
     assert "SEALED" in html
+

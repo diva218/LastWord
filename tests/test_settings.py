@@ -38,3 +38,4 @@ def test_settings_renders(client):
     assert "30 Days (Standard Mode)" in html
     assert "2 Minutes (Demo Mode)" in html
     assert "EventBridge Scanner" in html
+
