@@ -119,6 +119,38 @@ def vault():
     )
 
 
+@switch_bp.route("/contacts", methods=["GET"])
+def contacts():
+    """Contacts view showing authorized beneficiaries."""
+
+    user_id = session.get("user_id")
+    user = User.query.get(user_id) if user_id else None
+    contacts_list = Contact.query.filter_by(user_id=user.id).all() if user else []
+
+    if not contacts_list:
+        contacts_list = [
+            Contact(
+                id=1,
+                name="Sarah Vance",
+                email="sarah.vance@example.com",
+                created_at=datetime.utcnow() - timedelta(days=60),
+            ),
+            Contact(
+                id=2,
+                name="Michael Chen, Esq.",
+                email="mchen@chenlegal.example.com",
+                created_at=datetime.utcnow() - timedelta(days=40),
+            ),
+        ]
+
+    return render_template(
+        "contacts.html",
+        user=user,
+        contacts=contacts_list,
+        active_page="contacts",
+    )
+
+
 @switch_bp.route("/checkin", methods=["POST", "GET"])
 def checkin():
     """Manual heartbeat check-in trigger."""

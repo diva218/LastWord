@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts — LastWord Vault{% endblock %}
+
+{% block content %}
+<!-- Top Header Bar -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="LastWord Home">
+    <span class="brand-indicator" aria-hidden="true"></span>
+    <span>LastWord</span>
+  </a>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span class="tag-pill" style="margin-bottom: 0;">BENEFICIARIES</span>
+    <a href="/dashboard" class="topbar-link">Back to Dashboard</a>
+  </div>
+</header>
+
+<!-- Main Contacts Bento Grid -->
+<main class="bento-container" aria-label="LastWord Contacts Bento Grid">
+
+  <!-- Nav Tabs Tile (Col 12) -->
+  <nav class="bento-tile tile-dark col-12 app-nav-tile" aria-label="Dashboard Tabs">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase;">Trusted Network</span>
+      <span class="contact-badge" style="background: rgba(25, 211, 138, 0.15); color: var(--signal-green);">EXPIRING S3 LINKS ENABLED</span>
+    </div>
+    <div class="app-nav-tabs">
+      <a href="/dashboard" class="app-tab-btn">Dashboard</a>
+      <a href="/vault" class="app-tab-btn">Vault</a>
+      <a href="/contacts" class="app-tab-btn active">Contacts ({{ contacts|length }})</a>
+      <a href="/settings" class="app-tab-btn">Settings</a>
+      <a href="/audit" class="app-tab-btn">Audit Log</a>
+    </div>
+  </nav>
+
+  <!-- Contacts Hero Tile (Col 8) -->
+  <section class="bento-tile tile-bone col-8 headline-tile" style="min-height: 280px; padding: 30px;">
+    <div>
+      <div class="tag-pill" style="margin-bottom: 12px;">Fail-Safe Delivery Recipients</div>
+      <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--text-dark); margin-bottom: 12px;">
+        {{ contacts|length }} Designated Beneficiaries
+      </h1>
+      <p style="font-size: 14.5px; color: var(--text-dark-muted); max-width: 620px; line-height: 1.5;">
+        These contacts will only receive access if your dead man's switch transitions to the <strong>RELEASED</strong> state. Each contact receives a cryptographically signed, expiring S3 URL that unlocks strictly the vault items assigned to them.
+      </p>
+    </div>
+    <div style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
+      <span class="tag-pill" style="margin: 0; background: var(--ink); color: var(--bone);">AWS SES VERIFIED</span>
+      <span class="tag-pill" style="margin: 0; background: var(--signal-green); color: var(--ink);">ACTIVE HEARTBEAT ROUTING</span>
+    </div>
+  </section>
+
+  <!-- Add Beneficiary Tile (Col 4) -->
+  <section class="bento-tile tile-electric col-4">
+    <div>
+      <div class="tag-pill tag-pill-light" style="margin-bottom: 12px;">New Contact</div>
+      <div style="font-family: var(--font-display); font-size: 28px; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 8px;">
+        Add Trusted Contact
+      </div>
+      <p style="font-size: 13.5px; opacity: 0.92; line-height: 1.45; margin-bottom: 16px;">
+        Assign family members, business partners, or legal counsel.
+      </p>
+    </div>
+    <div>
+      <button type="button" class="btn-pill-black" style="width: 100%; justify-content: center; font-size: 14px;" onclick="alert('Demo: 2 verified contacts are pre-configured below.')">
+        + Add Beneficiary
+      </button>
+    </div>
+  </section>
+
+  <!-- Contacts List (Col 8) -->
+  <section class="bento-tile tile-dark col-8">
+    <div style="margin-bottom: 16px;">
+      <div class="tile-subhead">Registered Beneficiaries</div>
+      <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
+        Authorized Contacts
+      </div>
+    </div>
+
+    <div>
+      {% for contact in contacts %}
+      <div class="item-card">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+            <span style="font-weight: 700; color: var(--bone); font-size: 16px;">{{ contact.name }}</span>
+            <span class="contact-badge">DELIVERY READY</span>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12.5px; color: var(--electric-blue); margin-bottom: 4px;">
+            {{ contact.email }}
+          </div>
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Assigned: {% if loop.index == 1 %}2 Vault Items (Bitwarden Key, Farewell Letters){% else %}1 Vault Item (LLC Directives){% endif %}
+          </div>
+        </div>
+        <div style="text-align: right; flex-shrink: 0;">
+          <span style="font-family: var(--font-mono); font-size: 11px; color: #9ca3af;">EXPIRING LINK: 7 DAYS</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Delivery Protocol Tile (Col 4) -->
+  <section class="bento-tile tile-dark col-4 chat-bubbles-tile">
+    <div>
+      <div class="tile-subhead">Delivery Mechanism</div>
+      <div style="font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px;">
+        Release Protocol
+      </div>
+      <div class="chat-thread">
+        <div class="chat-bubble bubble-ses">
+          <div class="bubble-meta">
+            <span>DISPATCH</span>
+            <span>AWS SES</span>
+          </div>
+          <div>Signed link generated via AWS KMS with 168-hour validity.</div>
+        </div>
+        <div class="chat-bubble bubble-warned">
+          <div class="bubble-meta">
+            <span>ISOLATION</span>
+            <span>SECURE</span>
+          </div>
+          <div>Beneficiary Sarah cannot see items assigned exclusively to Michael.</div>
+        </div>
+        <div class="chat-bubble bubble-release">
+          <div class="bubble-meta">
+            <span>REVOCATION</span>
+            <span>INSTANT</span>
+          </div>
+          <div>Any manual check-in immediately invalidates all release tokens.</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); margin-top: 14px;">
+      Zero leak risk during normal Active operations.
+    </div>
+  </section>
+
+</main>
+{% endblock %}
