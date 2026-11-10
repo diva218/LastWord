@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}LastWord — If you go quiet, they'll still get it.{% endblock %}
+
+{% block content %}
+<!-- Top Bar -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="LastWord Home">
+    <span class="brand-indicator" aria-hidden="true"></span>
+    <span>LastWord</span>
+  </a>
+  <nav class="topbar-nav" aria-label="Main Navigation">
+    <a href="#how-it-works" class="topbar-link">How it works</a>
+    <a href="#vault" class="topbar-link">Vault</a>
+    <a href="#escalation" class="topbar-link">Escalation</a>
+    <a href="/dashboard" class="topbar-btn">Open Dashboard →</a>
+  </nav>
+</header>
+
+<!-- Main Bento Grid Container (One big rounded container on near-black #07080d) -->
+<main class="bento-container" aria-label="LastWord Overview Bento Grid">
+
+  <!-- Tile 1: Big Headline Tile (Col 8) -->
+  <section class="bento-tile tile-bone col-8 headline-tile">
+    <div>
+      <div class="tag-pill">
+        <span>● AWS KMS + S3 · Secure Check-In Vault</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-word"><span class="hero-word-inner">If</span></span>
+        <span class="hero-word"><span class="hero-word-inner">you</span></span>
+        <span class="hero-word"><span class="hero-word-inner">go</span></span>
+        <span class="hero-word"><span class="hero-word-inner">quiet,</span></span><br>
+        <span class="hero-word"><span class="hero-word-inner">they'll</span></span>
+        <span class="hero-word"><span class="hero-word-inner">still</span></span>
+        <span class="hero-word"><span class="hero-word-inner">get</span></span>
+        <span class="hero-word"><span class="hero-word-inner">it.</span></span>
+      </h1>
+      <p class="hero-desc">
+        LastWord lets you set a check-in schedule. If you stop checking in — whether you're travelling solo, in hospital, or simply unreachable — your chosen files and messages are shared with the people you trust. Powered by AWS KMS and S3.
+      </p>
+    </div>
+    <div class="hero-actions">
+      <a href="/dashboard" class="btn-pill-black">
+        <span>Create your switch</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#how-it-works" class="btn-pill-ghost">
+        <span>See how it works</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Tile 2: Live Status Badge Tile (Col 4) (Cycles Active -> Warned -> Grace -> Released) -->
+  <section class="bento-tile tile-green col-4 status-tile" id="statusCycleTile">
+    <div class="status-tile-header">
+      <span class="tag-pill" style="margin-bottom: 0; background: rgba(0,0,0,0.18); color: inherit;">State Machine</span>
+      <span class="status-cycle-chip" id="statusCycleChip">STATE 1/4</span>
+    </div>
+    <div class="status-main-display" id="statusDisplayWrap">
+      <div class="status-state-name" id="statusStateName">ACTIVE</div>
+      <div class="status-state-desc" id="statusStateDesc">Cadence verified. AWS EventBridge heartbeat active.</div>
+    </div>
+    <div class="status-telemetry" id="statusTelemetry">
+      [EVENTBRIDGE] Rule: cron(* * * * ? *) ➔ Lambda: PASS (0 alerts)
+    </div>
+  </section>
+
+  <!-- Tile 3: Live Countdown Tile (Col 5) -->
+  <section class="bento-tile tile-dark col-5 countdown-tile">
+    <div>
+      <div class="tile-subhead">Switch Countdown // Next Check-in</div>
+      <div class="countdown-flex-row">
+        <div>
+          <div class="countdown-digits" id="countdownDigits">14d 08h 42m 19s</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+            Heartbeat deadline: Dec 01, 2026 // 18:00 UTC
+          </div>
+        </div>
+        <div class="countdown-svg-wrap" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="96" height="96">
+            <circle class="countdown-circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="countdown-circle-progress" id="countdownProgress" cx="50" cy="50" r="40"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="cadence-meta">
+      INTERVAL = 30_DAYS | WARN = 48_HOURS | GRACE = 24_HOURS | SCAN = 60s
+    </div>
+  </section>
+
+  <!-- Tile 4: KMS Encrypted Vault Tile (Col 3) -->
+  <section class="bento-tile tile-dark col-3 vault-tile" id="vault">
+    <div>
+      <div class="vault-lock-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="tile-title-display">KMS Encrypted</div>
+      <p class="tile-body-text">
+        Sensitive files and password manager master keys are encrypted client-side and sealed in S3 with AWS KMS envelope encryption.
+      </p>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--electric-blue); font-weight: 700;">
+      AES-256-GCM // S3 SSE-KMS
+    </div>
+  </section>
+
+  <!-- Tile 5: Trusted Contacts Tile (Col 4) -->
+  <section class="bento-tile tile-dark col-4 contacts-tile">
+    <div>
+      <div class="tile-subhead">Your Trusted Contacts</div>
+      <div class="tile-title-display" style="font-size: 26px;">Trusted Contacts</div>
+      <div class="contacts-list">
+        <div class="contact-row">
+          <div>
+            <div class="contact-name">Sarah Vance (Wife)</div>
+            <div style="font-size: 11px; color: var(--text-muted);">2 vault items assigned</div>
+          </div>
+          <span class="contact-badge">VERIFIED</span>
+        </div>
+        <div class="contact-row">
+          <div>
+            <div class="contact-name">Michael Chen (Attorney)</div>
+            <div style="font-size: 11px; color: var(--text-muted);">1 vault item assigned</div>
+          </div>
+          <span class="contact-badge">VERIFIED</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); margin-top: 10px;">
+      Delivered only if switch reaches RELEASED state.
+    </div>
+  </section>
+
+  <!-- Tile 6: "How it works" Tile (Col 7) -->
+  <section class="bento-tile tile-bone col-7 how-it-works-tile" id="how-it-works">
+    <div>
+      <div class="tag-pill" style="margin-bottom: 10px;">Architecture</div>
+      <h2 style="font-family: var(--font-display); font-size: 34px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.95;">
+        How The Fail-Safe Operates
+      </h2>
+      <div class="steps-grid">
+        <div class="step-box">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-heading">Deposit</div>
+            <div class="step-text">Store passwords, documents, and instructions sealed in S3 with KMS.</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-heading">Cadence</div>
+            <div class="step-text">Select your interval (30 days standard, or 2 minutes in demo mode).</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-heading">Scan</div>
+            <div class="step-text">Amazon EventBridge triggers a Lambda scanner every 60 seconds.</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-heading">Release</div>
+            <div class="step-text">If check-ins stop, expiring S3 links are shared with the people you chose.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark-muted); margin-top: 14px;">
+      Deterministic cloud state machine: ACTIVE ➔ WARNED ➔ GRACE ➔ RELEASED
+    </div>
+  </section>
+
+  <!-- Tile 7: Email/SMS Escalation Monospace Chat Bubbles Tile (Col 5) -->
+  <section class="bento-tile tile-dark col-5 chat-bubbles-tile" id="escalation">
+    <div>
+      <div class="tile-subhead">Multi-Channel Escalation Timeline</div>
+      <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
+        Notification Stream
+      </div>
+      <div class="chat-thread">
+        <div class="chat-bubble bubble-ses">
+          <div class="bubble-meta">
+            <span>AWS SES // EMAIL</span>
+            <span>T-48h</span>
+          </div>
+          <div>[CHECK-IN DUE] Reminder: Regular check-in window ends in 48h. Confirm you are OK.</div>
+        </div>
+        <div class="chat-bubble bubble-warned">
+          <div class="bubble-meta">
+            <span>AWS SNS // SMS</span>
+            <span>T-0h</span>
+          </div>
+          <div>[STATUS: WARNED] Missed check-in detected. 24h grace window started before contact release.</div>
+        </div>
+        <div class="chat-bubble bubble-release">
+          <div class="bubble-meta">
+            <span>AWS KMS+SES // DISPATCH</span>
+            <span>T+24h</span>
+          </div>
+          <div>[VAULT RELEASED] Emergency trigger executed. Single-use expiring S3 links sent to Sarah &amp; Michael.</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 8px;">
+      Zero false positives. Escalation can be cancelled with one check-in click.
+    </div>
+  </section>
+
+  <!-- Tile 8: CTA Tile with Black Pill Button (Col 12) -->
+  <section class="bento-tile tile-electric col-12 cta-tile">
+    <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+      <h2 style="font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 12px;">
+        Your words. Protected until needed.
+      </h2>
+      <p style="font-size: 15px; opacity: 0.92; margin-bottom: 22px;">
+        Set up your check-in schedule in 2 minutes. If you ever stop checking in, LastWord ensures the right people get access to what you chose.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 14px;">
+        <a href="/dashboard" class="btn-pill-black" style="font-size: 15px; padding: 15px 34px;">
+          <span>Create your switch</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

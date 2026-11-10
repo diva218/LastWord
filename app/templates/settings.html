@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — LastWord Switch Configuration{% endblock %}
+
+{% block content %}
+<!-- Top Header Bar -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="LastWord Home">
+    <span class="brand-indicator" aria-hidden="true"></span>
+    <span>LastWord</span>
+  </a>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span class="tag-pill" style="margin-bottom: 0;">CONFIG // AWS EVENTBRIDGE</span>
+    <a href="/dashboard" class="topbar-link">Back to Dashboard</a>
+  </div>
+</header>
+
+<!-- Main Settings Bento Grid -->
+<main class="bento-container" aria-label="LastWord Settings Bento Grid">
+
+  <!-- Nav Tabs Tile (Col 12) -->
+  <nav class="bento-tile tile-dark col-12 app-nav-tile" aria-label="Dashboard Tabs">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase;">System Parameters</span>
+      <span class="contact-badge" style="background: rgba(59, 108, 255, 0.15); color: var(--electric-blue);">EVENTBRIDGE SCAN FREQUENCY: 60 SECONDS</span>
+    </div>
+    <div class="app-nav-tabs">
+      <a href="/dashboard" class="app-tab-btn">Dashboard</a>
+      <a href="/vault" class="app-tab-btn">Vault</a>
+      <a href="/contacts" class="app-tab-btn">Contacts</a>
+      <a href="/settings" class="app-tab-btn active">Settings</a>
+      <a href="/audit" class="app-tab-btn">Audit Log</a>
+    </div>
+  </nav>
+
+  <!-- Cadence Mode Selection Tile (Col 8) -->
+  <section class="bento-tile tile-bone col-8 headline-tile" style="min-height: 280px; padding: 30px;">
+    <div>
+      <div class="tag-pill" style="margin-bottom: 12px;">Heartbeat Frequency</div>
+      <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--text-dark); margin-bottom: 12px;">
+        Cadence &amp; Demo Mode
+      </h1>
+      <p style="font-size: 14.5px; color: var(--text-dark-muted); max-width: 620px; line-height: 1.5;">
+        Choose between standard operational cadence (30 days) and rapid demonstration mode (2 minutes) to test EventBridge and Lambda state escalation.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 14px; margin-top: 20px; flex-wrap: wrap;">
+      <button type="button" class="btn-pill-black" style="font-size: 14px;" onclick="alert('Standard 30-Day Production Cadence is active.')">
+        ✓ 30 Days (Standard Mode)
+      </button>
+      <button type="button" class="btn-pill-ghost" style="font-size: 14px;" onclick="alert('Demo Mode selected: 2-minute cadence for live presentation.')">
+        ⚡ 2 Minutes (Demo Mode)
+      </button>
+    </div>
+  </section>
+
+  <!-- Cloud Scanner Status Tile (Col 4) -->
+  <section class="bento-tile tile-dark col-4">
+    <div>
+      <div class="tag-pill tag-pill-light" style="margin-bottom: 12px;">AWS Architecture</div>
+      <div style="font-family: var(--font-display); font-size: 26px; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 10px;">
+        EventBridge Scanner
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+        Amazon EventBridge invokes the state scanner Lambda function every minute to verify timestamps.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--electric-blue);">
+        <div>RULE: lastword-minute-cron</div>
+        <div>SCHEDULE: cron(* * * * ? *)</div>
+        <div>LAMBDA: scanner-executor</div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--signal-green); font-weight: 700; margin-top: 14px;">
+      STATUS: ENABLED &amp; HEALTHY
+    </div>
+  </section>
+
+  <!-- Escalation Windows Tile (Col 6) -->
+  <section class="bento-tile tile-dark col-6">
+    <div style="margin-bottom: 16px;">
+      <div class="tile-subhead">Escalation Windows</div>
+      <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
+        Multi-Stage Thresholds
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="item-card">
+        <div>
+          <div style="font-weight: 700; color: var(--bone); font-size: 15px;">Warning Period</div>
+          <div style="font-size: 12.5px; color: var(--text-muted);">Graceful buffer before any contact alerts.</div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--amber);">
+          48 HOURS
+        </div>
+      </div>
+      <div class="item-card">
+        <div>
+          <div style="font-weight: 700; color: var(--bone); font-size: 15px;">Final Grace Buffer</div>
+          <div style="font-size: 12.5px; color: var(--text-muted);">Urgent SMS alerts sent to primary number.</div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--orange);">
+          24 HOURS
+        </div>
+      </div>
+      <div class="item-card">
+        <div>
+          <div style="font-weight: 700; color: var(--bone); font-size: 15px;">Release Action</div>
+          <div style="font-size: 12.5px; color: var(--text-muted);">Vault contents shared with trusted contacts.</div>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--red);">
+          RELEASE STATE
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification Routing Tile (Col 6) -->
+  <section class="bento-tile tile-dark col-6 chat-bubbles-tile">
+    <div>
+      <div class="tile-subhead">Notification Routing</div>
+      <div style="font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; margin-bottom: 12px;">
+        Communication Endpoints
+      </div>
+      <div class="chat-thread">
+        <div class="chat-bubble bubble-ses">
+          <div class="bubble-meta">
+            <span>AWS SES // PRIMARY EMAIL</span>
+            <span>VERIFIED</span>
+          </div>
+          <div>user@example.com (Delivers 48h, 24h, and 6h heartbeat reminder links)</div>
+        </div>
+        <div class="chat-bubble bubble-warned">
+          <div class="bubble-meta">
+            <span>AWS SNS // EMERGENCY SMS</span>
+            <span>ENABLED</span>
+          </div>
+          <div>+1 (555) 019-2834 (High-priority SMS during Grace window)</div>
+        </div>
+        <div class="chat-bubble bubble-release">
+          <div class="bubble-meta">
+            <span>AUDIT LOG</span>
+            <span>IMMUTABLE</span>
+          </div>
+          <div>All dispatches logged with CloudTrail &amp; DynamoDB audit trail.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock %}
+
