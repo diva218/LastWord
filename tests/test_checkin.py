@@ -45,3 +45,4 @@ def test_checkin_pulse_submission(client):
     assert response.status_code == 200
     html = response.get_data(as_text=True)
     assert "Pulse Recorded &amp; Verified" in html
+
