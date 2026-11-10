@@ -1,513 +1,231 @@
 {% extends "base.html" %}
 
-{% block title %}LastWord — Cryptographic Dead Man's Switch for Critical Assets{% endblock %}
+{% block title %}LastWord — Dead Man's Switch Vault{% endblock %}
 
 {% block content %}
-<!-- Floating Pill Navigation -->
-<nav class="site-nav" aria-label="Main Navigation">
-  <div class="nav-pill">
-    <a href="/" class="brand-logo" aria-label="LastWord Home">
-      <span class="brand-dot" aria-hidden="true"></span>
-      <span>LastWord</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#how-it-works" class="nav-link">How it works</a></li>
-      <li><a href="#timeline" class="nav-link">Timeline</a></li>
-      <li><a href="#features" class="nav-link">Vault & Security</a></li>
-      <li><a href="#faq" class="nav-link">FAQ</a></li>
-    </ul>
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <a href="/login" class="nav-link" style="font-size: 13px;">Log in</a>
-      <a href="#create" class="nav-cta">Create switch →</a>
+<!-- Top Bar -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="LastWord Home">
+    <span class="brand-indicator" aria-hidden="true"></span>
+    <span>LastWord</span>
+  </a>
+  <nav class="topbar-nav" aria-label="Main Navigation">
+    <a href="#how-it-works" class="topbar-link">How it works</a>
+    <a href="#vault" class="topbar-link">Vault</a>
+    <a href="#escalation" class="topbar-link">Escalation</a>
+    <a href="/dashboard" class="topbar-btn">Open Dashboard →</a>
+  </nav>
+</header>
+
+<!-- Main Bento Grid Container (One big rounded container on near-black #07080d) -->
+<main class="bento-container" aria-label="LastWord Overview Bento Grid">
+
+  <!-- Tile 1: Big Headline Tile (Col 8) -->
+  <section class="bento-tile tile-bone col-8 headline-tile">
+    <div>
+      <div class="tag-pill">
+        <span>● AWS KMS + S3 Dead Man's Switch</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-word"><span class="hero-word-inner">Say</span></span>
+        <span class="hero-word"><span class="hero-word-inner">it</span></span>
+        <span class="hero-word"><span class="hero-word-inner">before</span></span><br>
+        <span class="hero-word"><span class="hero-word-inner">you</span></span>
+        <span class="hero-word"><span class="hero-word-inner">can't.</span></span>
+      </h1>
+      <p class="hero-desc">
+        LastWord is a Dead Man's Switch Vault: a secure cloud vault for critical instructions, passwords, and encrypted documents in S3 sealed with AWS KMS. You set a check-in frequency (30 days, or 2 minutes in demo mode). EventBridge and Lambda scan every minute. If you miss a check-in, the state machine escalates Active &rarr; Warned &rarr; Grace &rarr; Released. If silence continues, single-use expiring S3 links are delivered to trusted contacts.
+      </p>
     </div>
-  </div>
-</nav>
-
-<!-- 1. Hero Stage Container -->
-<section class="stage-container stage-hero">
-  <!-- Soft Sky-Blue Cloud Backdrop -->
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-1"></div>
-    <div class="cloud-blob cloud-blob-2"></div>
-    <div class="cloud-blob cloud-blob-3"></div>
-    <div class="cloud-blob cloud-blob-4"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
-
-  <div class="stage-content hero-content">
-    <!-- Top Pill Badge -->
-    <div class="hero-pill-badge">
-      <span class="badge-icon"></span>
-      <span>Fail-Safe Cryptographic Dead Man's Switch</span>
-    </div>
-
-    <!-- Huge Tight Bold Headline (Inter Tight 800, -0.04em, line-height 0.95) -->
-    <h1 class="hero-headline">
-      <span class="hero-word-wrap"><span class="hero-word">When</span></span>
-      <span class="hero-word-wrap"><span class="hero-word">silence</span></span>
-      <span class="hero-word-wrap"><span class="hero-word">is</span></span>
-      <span class="hero-word-wrap"><span class="hero-word">final,</span></span><br>
-      <span class="hero-word-wrap"><span class="hero-word">your</span></span>
-      <span class="hero-word-wrap"><span class="hero-word">words</span></span>
-      <span class="hero-word-wrap"><span class="hero-word">speak.</span></span>
-    </h1>
-
-    <!-- One-Line Subhead -->
-    <p class="hero-subhead">
-      An encrypted fail-safe that monitors your heartbeat and releases your critical vault items to trusted contacts if you ever go silent.
-    </p>
-
-    <!-- Hero Actions: Black Pill Button + Ghost Button -->
     <div class="hero-actions">
-      <a href="#create" class="btn btn-pill-black btn-magnetic">
+      <a href="/dashboard" class="btn-pill-black">
         <span>Create your switch</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
-      <a href="#how-it-works" class="btn btn-ghost btn-magnetic">
+      <a href="#how-it-works" class="btn-pill-ghost">
         <span>See how it works</span>
       </a>
     </div>
+  </section>
 
-    <!-- Floating App-Window Mockup (Pure HTML/CSS) -->
-    <div class="mockup-wrapper">
-      <div class="app-mockup" id="appMockup">
-        <!-- macOS Style Window Header -->
-        <div class="mockup-titlebar">
-          <div class="mockup-dots" aria-hidden="true">
-            <span class="mockup-dot dot-red"></span>
-            <span class="mockup-dot dot-yellow"></span>
-            <span class="mockup-dot dot-green"></span>
-          </div>
-          <div class="mockup-title-text">
-            <span>LastWord // Emergency Vault System</span>
-            <span class="mockup-title-pill">AES-256</span>
-          </div>
-          <div class="mockup-actions-dummy" aria-hidden="true">
-            <div class="dummy-avatar">JD</div>
+  <!-- Tile 2: Live Status Badge Tile (Col 4) (Cycles Active -> Warned -> Grace -> Released) -->
+  <section class="bento-tile tile-green col-4 status-tile" id="statusCycleTile">
+    <div class="status-tile-header">
+      <span class="tag-pill" style="margin-bottom: 0; background: rgba(0,0,0,0.18); color: inherit;">State Machine</span>
+      <span class="status-cycle-chip" id="statusCycleChip">STATE 1/4</span>
+    </div>
+    <div class="status-main-display" id="statusDisplayWrap">
+      <div class="status-state-name" id="statusStateName">ACTIVE</div>
+      <div class="status-state-desc" id="statusStateDesc">Cadence verified. AWS EventBridge heartbeat active.</div>
+    </div>
+    <div class="status-telemetry" id="statusTelemetry">
+      [EVENTBRIDGE] Rule: cron(* * * * ? *) ➔ Lambda: PASS (0 alerts)
+    </div>
+  </section>
+
+  <!-- Tile 3: Live Countdown Tile (Col 5) -->
+  <section class="bento-tile tile-dark col-5 countdown-tile">
+    <div>
+      <div class="tile-subhead">Switch Countdown // Next Check-in</div>
+      <div class="countdown-flex-row">
+        <div>
+          <div class="countdown-digits" id="countdownDigits">14d 08h 42m 19s</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+            Heartbeat deadline: Dec 01, 2026 // 18:00 UTC
           </div>
         </div>
-
-        <!-- Mockup App Body -->
-        <div class="mockup-body">
-          <!-- Left Sidebar -->
-          <aside class="mockup-sidebar">
-            <div class="mockup-nav-group">
-              <div class="sidebar-label">Navigation</div>
-              <div class="mockup-nav-item active">
-                <div class="nav-item-left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                  <span>Dashboard</span>
-                </div>
-              </div>
-              <div class="mockup-nav-item">
-                <div class="nav-item-left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  <span>Vault</span>
-                </div>
-                <span class="nav-item-badge">3</span>
-              </div>
-              <div class="mockup-nav-item">
-                <div class="nav-item-left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  <span>Contacts</span>
-                </div>
-                <span class="nav-item-badge">2</span>
-              </div>
-              <div class="mockup-nav-item">
-                <div class="nav-item-left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                  <span>Settings</span>
-                </div>
-              </div>
-              <div class="mockup-nav-item">
-                <div class="nav-item-left">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
-                  <span>Audit log</span>
-                </div>
-                <span class="nav-item-badge" style="background: #ecfdf5; color: #047857;">Live</span>
-              </div>
-            </div>
-
-            <!-- Switch Cadence Quick Box -->
-            <div class="sidebar-switch-status">
-              <div class="status-row">
-                <span style="color: var(--text-muted);">Interval:</span>
-                <span style="font-weight: 600;">14 Days</span>
-              </div>
-              <div class="status-row">
-                <span style="color: var(--text-muted);">Warn Period:</span>
-                <span style="font-weight: 600;">48 Hours</span>
-              </div>
-              <div class="status-row">
-                <span style="color: var(--text-muted);">Grace Buffer:</span>
-                <span style="font-weight: 600;">24 Hours</span>
-              </div>
-            </div>
-          </aside>
-
-          <!-- Main Dashboard Panel -->
-          <main class="mockup-main">
-            <!-- Header with Status Badge (Loops Active -> Warned -> Grace -> Released) -->
-            <div class="mockup-main-header">
-              <div class="mockup-header-title">
-                <h3>Primary Switch Monitor</h3>
-                <p>Monitors daily check-in pulses. Automatic multi-channel escalation.</p>
-              </div>
-              <div class="status-badge status-active mockup-status-badge">
-                <span class="status-badge-dot"></span>
-                <span>Active</span>
-              </div>
-            </div>
-
-            <!-- Live Countdown Ring Hero Widget -->
-            <div class="countdown-container">
-              <div class="countdown-visual">
-                <svg class="countdown-svg" viewBox="0 0 150 150" aria-label="Countdown circular progress ring">
-                  <circle class="ring-bg" cx="75" cy="75" r="65"></circle>
-                  <circle class="ring-stroke" cx="75" cy="75" r="65"></circle>
-                </svg>
-                <div class="countdown-inner">
-                  <div class="countdown-inner-time">14d 08h 42m 19s</div>
-                  <div class="countdown-inner-label">Time Remaining</div>
-                </div>
-              </div>
-              <div class="countdown-details">
-                <div class="countdown-meta-tag">Switch Status &amp; Action</div>
-                <div class="countdown-headline">Switch Active &amp; Monitoring</div>
-                <p class="countdown-subtext">
-                  Your regular check-in window is open. A quick click resets the countdown timer and proves you are well.
-                </p>
-                <button type="button" class="btn-checkin" aria-label="Confirm check-in pulse">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-                  <span>I'm OK — Check in</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Recent Activity Row of 3 Small Cards -->
-            <div class="activity-row">
-              <div class="activity-card">
-                <div class="activity-label">
-                  <span>Escalation Events</span>
-                  <span class="activity-dot" style="background: #10b981;"></span>
-                </div>
-                <div class="activity-title">Heartbeat Verified</div>
-                <div class="activity-desc">0 of 3 warning thresholds triggered. System normal.</div>
-              </div>
-
-              <div class="activity-card">
-                <div class="activity-label">
-                  <span>Emails Sent</span>
-                  <span class="activity-dot" style="background: #3b82f6;"></span>
-                </div>
-                <div class="activity-title">2 Check-in Pings</div>
-                <div class="activity-desc">Delivered to registered email. Next scheduled in 6d.</div>
-              </div>
-
-              <div class="activity-card">
-                <div class="activity-label">
-                  <span>File Opened / Vault</span>
-                  <span class="activity-dot" style="background: #8b5cf6;"></span>
-                </div>
-                <div class="activity-title">3 Items Sealed</div>
-                <div class="activity-desc">Encrypted with zero-knowledge envelope KMS keys.</div>
-              </div>
-            </div>
-
-            <!-- Retro Monospace Notice Card for Escalation Timeline Event -->
-            <div class="retro-notice-card" aria-label="Escalation Notice Card">
-              <div class="retro-notice-header">
-                <span class="retro-header-tag">ESC-LOG // EVENT_0492</span>
-                <span>SYSTEM_TELEMETRY</span>
-              </div>
-              <div class="retro-notice-body">
-                <div class="retro-log-line">
-                  <span class="retro-code">[T-00:00:00]</span>
-                  <span class="retro-log-line-active">[SYS_CHECK] Heartbeat verified. Active cadence window renewed (+14 days). Next deadline: Dec 01, 2026 12:00 UTC.</span>
-                </div>
-              </div>
-            </div>
-          </main>
+        <div class="countdown-svg-wrap" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="96" height="96">
+            <circle class="countdown-circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="countdown-circle-progress" id="countdownProgress" cx="50" cy="50" r="40"></circle>
+          </svg>
         </div>
       </div>
     </div>
-  </div>
-</section>
+    <div class="cadence-meta">
+      INTERVAL = 30_DAYS | WARN = 48_HOURS | GRACE = 24_HOURS | SCAN = 60s
+    </div>
+  </section>
 
-<!-- 2. "How It Works" Stage (Pinned Scroll Sequence) -->
-<section class="stage-container stage-sequence" id="how-it-works">
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-1" style="opacity: 0.5;"></div>
-    <div class="cloud-blob cloud-blob-2" style="opacity: 0.5;"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
-
-  <div class="stage-content">
-    <div class="section-header scroll-reveal">
-      <div class="section-tag">PROTOCOL ARCHITECTURE</div>
-      <h2 class="section-title">How the fail-safe works.</h2>
-      <p class="section-desc">
-        A deterministic state machine designed with zero room for ambiguity. Designed to keep secrets safe while you're alive, and guarantee delivery when you are not.
+  <!-- Tile 4: KMS Encrypted Vault Tile (Col 3) -->
+  <section class="bento-tile tile-dark col-3 vault-tile" id="vault">
+    <div>
+      <div class="vault-lock-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="tile-title-display">KMS Encrypted</div>
+      <p class="tile-body-text">
+        Sensitive files and password manager master keys are encrypted client-side and sealed in S3 with AWS KMS envelope encryption.
       </p>
     </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--electric-blue); font-weight: 700;">
+      AES-256-GCM // S3 SSE-KMS
+    </div>
+  </section>
 
-    <!-- Pinned Scroll Sequence Layout -->
-    <div class="sequence-container">
-      <!-- Animated Vertical Connecting Line -->
-      <div class="sequence-line-track" aria-hidden="true">
-        <div class="sequence-line-bg"></div>
-        <div class="sequence-line-fill"></div>
-        <div class="step-node active" data-step="1">01</div>
-        <div class="step-node" data-step="2">02</div>
-        <div class="step-node" data-step="3">03</div>
-      </div>
-
-      <!-- Step Cards (Activated progressively on scroll) -->
-      <div class="sequence-cards">
-        <!-- Step 1 -->
-        <article class="step-card active" data-step="1">
-          <div class="step-meta">STEP 01 // CADENCE CONFIGURATION</div>
-          <h3 class="step-title">Set your check-in interval and safe buffers</h3>
-          <p class="step-desc">
-            Define your regular check-in cadence (e.g. every 14 days). Set warning notifications (48 hours) and an emergency grace window (24 hours). Checking in is as effortless as clicking a link in your reminder email or pushing a button in your dashboard.
-          </p>
-          <div class="step-demo-ui">
-            <div>CADENCE = 14_DAYS | WARN_WINDOW = 48_HOURS | GRACE_BUFFER = 24_HOURS</div>
-            <div style="color: #059669; margin-top: 4px;">✓ Heartbeat listener initialized on automated scan loop</div>
+  <!-- Tile 5: Trusted Contacts Tile (Col 4) -->
+  <section class="bento-tile tile-dark col-4 contacts-tile">
+    <div>
+      <div class="tile-subhead">Authorized Beneficiaries</div>
+      <div class="tile-title-display" style="font-size: 26px;">Trusted Contacts</div>
+      <div class="contacts-list">
+        <div class="contact-row">
+          <div>
+            <div class="contact-name">Sarah Vance (Wife)</div>
+            <div style="font-size: 11px; color: var(--text-muted);">2 vault items assigned</div>
           </div>
-        </article>
-
-        <!-- Step 2 -->
-        <article class="step-card" data-step="2">
-          <div class="step-meta">STEP 02 // ZERO-KNOWLEDGE DEPOSIT</div>
-          <h3 class="step-title">Deposit vault items and assign trusted beneficiaries</h3>
-          <p class="step-desc">
-            Upload encrypted documents, password manager master keys, recovery phrases, or personal farewell letters. Assign specific items to specific contacts. LastWord encrypts files at rest with envelope KMS encryption so no unauthorized eyes ever inspect the contents.
-          </p>
-          <div class="step-demo-ui">
-            <div>VAULT_ITEM[01]: "Bitwarden Master Key" ➔ Contact: Sarah (Wife)</div>
-            <div>VAULT_ITEM[02]: "LLC Deeds & Estate Plan" ➔ Contact: Michael (Attorney)</div>
-            <div style="color: #0284c7; margin-top: 4px;">✓ Cryptographic hash generation: SHA-256 + KMS Envelope</div>
+          <span class="contact-badge">VERIFIED</span>
+        </div>
+        <div class="contact-row">
+          <div>
+            <div class="contact-name">Michael Chen (Attorney)</div>
+            <div style="font-size: 11px; color: var(--text-muted);">1 vault item assigned</div>
           </div>
-        </article>
-
-        <!-- Step 3 -->
-        <article class="step-card" data-step="3">
-          <div class="step-meta">STEP 03 // AUTOMATIC FAIL-SAFE RELEASE</div>
-          <h3 class="step-title">Escalation executes only when silence is permanent</h3>
-          <p class="step-desc">
-            If you miss a scheduled check-in, the switch transitions to WARNED and alerts you across multiple channels. If silence continues past the GRACE window, single-use cryptographically signed release tokens are dispatched to your designated recipients to unlock only what you assigned to them.
-          </p>
-          <div class="step-demo-ui">
-            <div>STATE_MACHINE: ACTIVE ➔ WARNED ➔ GRACE ➔ RELEASED</div>
-            <div style="color: #dc2626; margin-top: 4px;">✓ One-time cryptographic download tokens dispatched to 2 verified contacts</div>
-          </div>
-        </article>
+          <span class="contact-badge">VERIFIED</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+    <div style="font-family: var(--font-mono); font-size: 10.5px; color: var(--text-muted); margin-top: 10px;">
+      Delivered only if switch reaches RELEASED state.
+    </div>
+  </section>
 
-<!-- 3. Retro Monospace "Notice" Cards Section (Playful Contrast) -->
-<section class="stage-container stage-notices" id="timeline">
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-3" style="opacity: 0.55;"></div>
-    <div class="cloud-blob cloud-blob-4" style="opacity: 0.55;"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
+  <!-- Tile 6: "How it works" Tile (Col 7) -->
+  <section class="bento-tile tile-bone col-7 how-it-works-tile" id="how-it-works">
+    <div>
+      <div class="tag-pill" style="margin-bottom: 10px;">Architecture</div>
+      <h2 style="font-family: var(--font-display); font-size: 34px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.95;">
+        How The Fail-Safe Operates
+      </h2>
+      <div class="steps-grid">
+        <div class="step-box">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-heading">Deposit</div>
+            <div class="step-text">Store master passwords, letters, and estate records sealed in S3 with KMS.</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-heading">Cadence</div>
+            <div class="step-text">Select your interval (30 days standard, or 2 minutes in demo mode).</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-heading">Scan</div>
+            <div class="step-text">Amazon EventBridge triggers a Lambda scanner every 60 seconds.</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-heading">Release</div>
+            <div class="step-text">If silence persists, expiring S3 links are delivered to designated contacts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dark-muted); margin-top: 14px;">
+      Deterministic cloud state machine: ACTIVE ➔ WARNED ➔ GRACE ➔ RELEASED
+    </div>
+  </section>
 
-  <div class="stage-content">
-    <div class="section-header scroll-reveal">
-      <div class="section-tag">ESCALATION TIMELINE // LOG PROTOCOLS</div>
-      <h2 class="section-title">Transparent, tamper-proof escalation.</h2>
-      <p class="section-desc">
-        Notice cards provide absolute clarity on every state transition. Every action is recorded to an immutable audit trail.
+  <!-- Tile 7: Email/SMS Escalation Monospace Chat Bubbles Tile (Col 5) -->
+  <section class="bento-tile tile-dark col-5 chat-bubbles-tile" id="escalation">
+    <div>
+      <div class="tile-subhead">Multi-Channel Escalation Timeline</div>
+      <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
+        Notification Stream
+      </div>
+      <div class="chat-thread">
+        <div class="chat-bubble bubble-ses">
+          <div class="bubble-meta">
+            <span>AWS SES // EMAIL</span>
+            <span>T-48h</span>
+          </div>
+          <div>[CHECK-IN DUE] Reminder: Regular check-in window ends in 48h. Confirm you are OK.</div>
+        </div>
+        <div class="chat-bubble bubble-warned">
+          <div class="bubble-meta">
+            <span>AWS SNS // SMS</span>
+            <span>T-0h</span>
+          </div>
+          <div>[STATUS: WARNED] Missed check-in detected. 24h grace window started before contact release.</div>
+        </div>
+        <div class="chat-bubble bubble-release">
+          <div class="bubble-meta">
+            <span>AWS KMS+SES // DISPATCH</span>
+            <span>T+24h</span>
+          </div>
+          <div>[VAULT RELEASED] Emergency trigger executed. Single-use expiring S3 links sent to Sarah &amp; Michael.</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 8px;">
+      Zero false positives. Escalation can be cancelled with one check-in click.
+    </div>
+  </section>
+
+  <!-- Tile 8: CTA Tile with Black Pill Button (Col 12) -->
+  <section class="bento-tile tile-electric col-12 cta-tile">
+    <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+      <h2 style="font-family: var(--font-display); font-size: clamp(2.4rem, 4.5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 12px;">
+        Your words. Protected until needed.
+      </h2>
+      <p style="font-size: 15px; opacity: 0.92; margin-bottom: 22px;">
+        Set up your encrypted dead man's switch in 2 minutes. Keep your critical accounts and loved ones protected with automated AWS fail-safe infrastructure.
       </p>
-    </div>
-
-    <div class="notices-grid scroll-reveal">
-      <!-- Retro Notice Card 1 -->
-      <div class="retro-notice-card">
-        <div class="retro-notice-header">
-          <span class="retro-header-tag">NOTICE 01 // MISSED CADENCE</span>
-          <span>T + 00:00:01</span>
-        </div>
-        <div class="retro-notice-body">
-          <div class="retro-log-line"><strong>STATUS:</strong> <span style="color: #d97706;">TRANSITION_TO_WARNED</span></div>
-          <div class="retro-log-line"><strong>TRIGGER:</strong> 14-day check-in window elapsed without heartbeat ping.</div>
-          <div class="retro-log-line"><strong>ACTION:</strong> Priority email alert sent to primary address. 48-hour response countdown initiated.</div>
-          <div class="retro-log-line" style="color: #64748b; font-size: 11px; margin-top: 8px;">AUDIT_ID: 9bf2-481e // HMAC VALID</div>
-        </div>
-      </div>
-
-      <!-- Retro Notice Card 2 -->
-      <div class="retro-notice-card">
-        <div class="retro-notice-header">
-          <span class="retro-header-tag" style="background: #ea580c;">NOTICE 02 // GRACE BUFFER</span>
-          <span>T + 48:00:01</span>
-        </div>
-        <div class="retro-notice-body">
-          <div class="retro-log-line"><strong>STATUS:</strong> <span style="color: #ea580c;">TRANSITION_TO_GRACE</span></div>
-          <div class="retro-log-line"><strong>TRIGGER:</strong> Warning period expired with no response received.</div>
-          <div class="retro-log-line"><strong>ACTION:</strong> Final grace period (24 hours) active. Urgent SMS dispatch and secondary verification ping.</div>
-          <div class="retro-log-line" style="color: #64748b; font-size: 11px; margin-top: 8px;">AUDIT_ID: c1a7-890d // FAILSAFE_ENGAGED</div>
-        </div>
-      </div>
-
-      <!-- Retro Notice Card 3 -->
-      <div class="retro-notice-card">
-        <div class="retro-notice-header">
-          <span class="retro-header-tag" style="background: #dc2626;">NOTICE 03 // VAULT RELEASE</span>
-          <span>T + 72:00:01</span>
-        </div>
-        <div class="retro-notice-body">
-          <div class="retro-log-line"><strong>STATUS:</strong> <span style="color: #dc2626;">STATE_RELEASED</span></div>
-          <div class="retro-log-line"><strong>TRIGGER:</strong> All timers elapsed. Dead man's switch triggered.</div>
-          <div class="retro-log-line"><strong>ACTION:</strong> Unique, single-use cryptographic release tokens sent to Sarah Vance &amp; Michael Chen.</div>
-          <div class="retro-log-line" style="color: #64748b; font-size: 11px; margin-top: 8px;">AUDIT_ID: f09e-312c // TOKENS_ACTIVE</div>
-        </div>
+      <div style="display: flex; justify-content: center; gap: 14px;">
+        <a href="/dashboard" class="btn-pill-black" style="font-size: 15px; padding: 15px 34px;">
+          <span>Create your switch</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- 4. System Capabilities & Security Stage -->
-<section class="stage-container stage-features" id="features">
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-1" style="opacity: 0.6;"></div>
-    <div class="cloud-blob cloud-blob-2" style="opacity: 0.6;"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
-
-  <div class="stage-content">
-    <div class="section-header scroll-reveal">
-      <div class="section-tag">SECURITY FOUNDATIONS</div>
-      <h2 class="section-title">Built for maximum privacy.</h2>
-      <p class="section-desc">
-        Your most sensitive passwords, instructions, and legacy files are protected by banking-grade cryptography.
-      </p>
-    </div>
-
-    <div class="features-grid scroll-reveal">
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h4 class="feature-title">Zero-Knowledge Vault</h4>
-        <p class="feature-desc">Files and secure notes are encrypted at rest with AES-256-GCM. Decryption keys are released only when conditions are met.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <h4 class="feature-title">Granular Permissions</h4>
-        <p class="feature-desc">Assign specific files or instructions to specific people. Your family receives your letters; your lawyer receives your will.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
-        </div>
-        <h4 class="feature-title">Tamper-Proof Audit Trail</h4>
-        <p class="feature-desc">Every check-in, warning alert, and state transition is immutably logged with precise UTC timestamps and cryptographic checksums.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
-        </div>
-        <h4 class="feature-title">One-Click Check-in</h4>
-        <p class="feature-desc">No tedious logins required. Verify you are safe via a secure, single-use email link, or directly in your dashboard.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. FAQ Stage -->
-<section class="stage-container" id="faq" style="padding: 72px 48px;">
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-3" style="opacity: 0.6;"></div>
-    <div class="cloud-blob cloud-blob-4" style="opacity: 0.6;"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
-
-  <div class="stage-content">
-    <div class="section-header scroll-reveal">
-      <div class="section-tag">FREQUENTLY ASKED QUESTIONS</div>
-      <h2 class="section-title">Common questions &amp; answers.</h2>
-      <p class="section-desc">Everything you need to know about fail-safe reliability and cryptographic safety.</p>
-    </div>
-
-    <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;" class="scroll-reveal">
-      <div class="activity-card" style="padding: 22px 26px;">
-        <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">What if I am traveling or forget to check in?</h4>
-        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.55;">
-          You are never abruptly compromised. When your check-in deadline passes, LastWord enters the <strong>WARNED</strong> state and contacts you repeatedly across your configured channels. If you still don't respond, the <strong>GRACE</strong> period activates. Your switch is only released after all escalation stages expire.
-        </p>
-      </div>
-
-      <div class="activity-card" style="padding: 22px 26px;">
-        <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Can LastWord or AWS read my vault contents?</h4>
-        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.55;">
-          No. All notes and files uploaded to LastWord are encrypted with envelope KMS keys. Only holders of the generated release tokens can decrypt and access assigned items.
-        </p>
-      </div>
-
-      <div class="activity-card" style="padding: 22px 26px;">
-        <h4 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">How do my beneficiaries access my vault?</h4>
-        <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.55;">
-          When the switch is released, your beneficiaries receive a cryptographically signed, expiring access token. They do not need a LastWord account—they click their secure link to download and decrypt their designated assets.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 6. Bottom Call to Action Stage -->
-<section class="stage-container stage-cta" id="create">
-  <div class="cloud-backdrop" aria-hidden="true">
-    <div class="cloud-blob cloud-blob-1"></div>
-    <div class="cloud-blob cloud-blob-2"></div>
-    <div class="cloud-blob cloud-blob-3"></div>
-  </div>
-  <div class="cloud-edge-fade" aria-hidden="true"></div>
-  <div class="grain-overlay" aria-hidden="true"></div>
-
-  <div class="stage-content scroll-reveal">
-    <h2 class="cta-headline">Prepare today.<br>Protect tomorrow.</h2>
-    <p class="cta-subtext">
-      Set up your encrypted switch in under three minutes. Keep control of your legacy and protect those who matter most.
-    </p>
-    <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-      <a href="/register" class="btn btn-pill-black btn-magnetic" style="font-size: 16px; padding: 16px 38px;">
-        <span>Create your switch</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- 7. Site Footer -->
-<footer class="site-footer">
-  <div class="footer-left">
-    <div class="footer-brand">LastWord</div>
-    <div>Deterministic Dead Man's Switch // Zero-Knowledge Architecture</div>
-  </div>
-  <ul class="footer-links">
-    <li><a href="#how-it-works">How it works</a></li>
-    <li><a href="#timeline">Timeline</a></li>
-    <li><a href="#features">Security</a></li>
-    <li><a href="/health">System Health</a></li>
-  </ul>
-  <div class="system-status-indicator">
-    <span class="system-status-dot"></span>
-    <span>ALL SYSTEMS OPERATIONAL</span>
-  </div>
-</footer>
+</main>
 {% endblock %}

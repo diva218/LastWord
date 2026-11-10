@@ -1,4 +1,4 @@
-"""Tests for the LastWord landing page UI."""
+"""Tests for the LastWord Bento Grid landing page UI."""
 
 import os
 import pytest
@@ -28,17 +28,18 @@ def client():
 
 
 def test_landing_page_renders_successfully(client):
-    """GET / renders successfully with stage container and core elements."""
+    """GET / renders successfully with bento grid container and core elements."""
     response = client.get("/")
     assert response.status_code == 200
     html = response.get_data(as_text=True)
 
-    # Core UI elements
+    # Core Bento UI elements
     assert "LastWord" in html
-    assert "stage-container" in html
-    assert "app-mockup" in html
-    assert "countdown-visual" in html
-    assert "retro-notice-card" in html
+    assert "bento-container" in html
+    assert "bento-tile" in html
+    assert "Say" in html and "before" in html
+    assert "countdownDigits" in html
+    assert "KMS Encrypted" in html
     assert "Create your switch" in html
     assert "See how it works" in html
 
@@ -48,8 +49,5 @@ def test_static_assets_available(client):
     css_resp = client.get("/static/css/main.css")
     assert css_resp.status_code == 200
 
-    js_resp = client.get("/static/js/motion.js")
+    js_resp = client.get("/static/js/main.js")
     assert js_resp.status_code == 200
-
-    gsap_resp = client.get("/static/vendor/gsap.min.js")
-    assert gsap_resp.status_code == 200
