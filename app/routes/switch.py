@@ -151,6 +151,32 @@ def contacts():
     )
 
 
+@switch_bp.route("/settings", methods=["GET"])
+def settings():
+    """Settings view for switch cadence, notification channels, and demo mode."""
+
+    user_id = session.get("user_id")
+    user = User.query.get(user_id) if user_id else None
+    switch = Switch.query.filter_by(user_id=user.id).first() if user else None
+
+    if not switch:
+        switch = Switch(
+            state="ACTIVE",
+            interval_s=30 * 86400,
+            warn_s=48 * 3600,
+            grace_s=24 * 3600,
+            last_checkin=datetime.utcnow() - timedelta(hours=2),
+            next_deadline=datetime.utcnow() + timedelta(days=30),
+        )
+
+    return render_template(
+        "settings.html",
+        user=user,
+        switch=switch,
+        active_page="settings",
+    )
+
+
 @switch_bp.route("/checkin", methods=["POST", "GET"])
 def checkin():
     """Manual heartbeat check-in trigger."""
