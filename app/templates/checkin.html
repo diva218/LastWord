@@ -10,7 +10,7 @@
     <span>LastWord</span>
   </a>
   <div style="display: flex; align-items: center; gap: 14px;">
-    <span class="tag-pill" style="margin-bottom: 0;">HEARTBEAT PORTAL</span>
+    <span class="tag-pill" style="margin-bottom: 0;">HEARTBEAT</span>
     <a href="/dashboard" class="topbar-link">Go to Dashboard</a>
   </div>
 </header>
@@ -25,13 +25,13 @@
         Heartbeat Verification
       </div>
       <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5.5vw, 4.4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--text-dark); margin-bottom: 12px;">
-        {% if checked_in %}Pulse Recorded &amp; Verified{% else %}Confirm You Are Well{% endif %}
+        {% if checked_in %}Pulse Recorded{% else %}Confirm You Are Well{% endif %}
       </h1>
-      <p style="font-size: 15px; color: var(--signal-green-dark); font-weight: 500; max-width: 620px; line-height: 1.5;">
+      <p style="font-size: 15px; color: var(--signal-green-dark); font-weight: 500; max-width: 560px; line-height: 1.5;">
         {% if checked_in %}
-        Your check-in signal has been immutably registered in AWS CloudWatch. Any active warning emails or SMS escalation routines have been halted. Your next check-in window is renewed for 30 days.
+        Check-in registered. Any pending alerts have been cancelled. Next window renewed.
         {% else %}
-        Submitting this check-in pulse resets your countdown timer, confirms switch state as ACTIVE, and stops any pending multi-channel notifications immediately.
+        Submitting resets the countdown and confirms your switch is ACTIVE.
         {% endif %}
       </p>
     </div>
@@ -39,64 +39,55 @@
     <form method="POST" action="/checkin" style="margin-top: 20px; width: 100%;">
       <button type="submit" class="btn-checkin-huge" id="btnCheckinPage" style="background: var(--ink); color: #ffffff; border-color: var(--ink);">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-        <span>{% if checked_in %}Pulse Confirmed — Recheck Now{% else %}I'm OK — Check in Now{% endif %}</span>
+        <span>{% if checked_in %}Recheck Now{% else %}I'm OK — Check in Now{% endif %}</span>
       </button>
     </form>
   </section>
 
-  <!-- Switch Status Telemetry Tile (Col 4) -->
+  <!-- Switch Status Tile (Col 4) -->
   <section class="bento-tile tile-dark col-4">
     <div>
-      <div class="tile-subhead">Switch Cadence Metrics</div>
-      <div class="tile-title-display" style="font-size: 26px;">Status: ACTIVE</div>
-      <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 14px;">
-        EventBridge and Lambda scanner routine active.
+      <div class="tile-subhead">Switch Status</div>
+      <div class="tile-title-display" style="font-size: 26px;">ACTIVE</div>
+      <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 0;">
+        Lambda scanner active. 30-day cadence.
       </p>
-      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--signal-green);">
-        <div>CADENCE: 30 DAYS</div>
-        <div>SCAN FREQUENCY: 60 SECONDS</div>
-        <div>NEXT DEADLINE: In 30 Days</div>
-      </div>
     </div>
-    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 14px;">
-      Zero AWS keys or static tokens required.
+    <div style="font-family: var(--font-mono); font-size: 11px; color: var(--signal-green); margin-top: 14px;">
+      NEXT DEADLINE: In 30 Days
     </div>
   </section>
 
-  <!-- Escalation Halt Explanation (Col 12) -->
-  <section class="bento-tile tile-dark col-12 chat-bubbles-tile">
+  <!-- Reset Protocol (Col 12) -->
+  <section class="bento-tile tile-dark col-12">
     <div style="margin-bottom: 14px;">
-      <div class="tile-subhead">Fail-Safe Reset Protocol</div>
-      <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
-        Immediate Escalation Cancellation
-      </div>
+      <div class="tile-subhead">What Happens on Check-In</div>
     </div>
 
     <div class="chat-thread" style="gap: 10px;">
       <div class="chat-bubble bubble-ses" style="max-width: 100%;">
         <div class="bubble-meta">
-          <span>EVENT</span>
+          <span>STATE MACHINE</span>
           <span>HEARTBEAT RECEIVED</span>
         </div>
-        <div>State machine instantly locks into ACTIVE. Any warning timer at T-48h or T-0h resets to 0.</div>
+        <div>Switch locks into ACTIVE. All warning timers reset to zero.</div>
       </div>
       <div class="chat-bubble bubble-warned" style="max-width: 100%;">
         <div class="bubble-meta">
-          <span>NOTIFICATION</span>
-          <span>DISPATCH CANCELLED</span>
+          <span>NOTIFICATIONS</span>
+          <span>CANCELLED</span>
         </div>
-        <div>Pending SES emails and SNS SMS messages queued for trusted contacts are revoked.</div>
+        <div>Pending SES emails and SNS SMS revoked immediately.</div>
       </div>
       <div class="chat-bubble bubble-release" style="max-width: 100%;">
         <div class="bubble-meta">
-          <span>VAULT SECURITY</span>
+          <span>VAULT</span>
           <span>RE-SEALED</span>
         </div>
-        <div>S3 presigned URLs remain ungenerated. All vault items remain locked with AWS KMS envelope encryption.</div>
+        <div>All presigned S3 URLs remain ungenerated. Vault stays locked.</div>
       </div>
     </div>
   </section>
 
 </main>
 {% endblock %}
-

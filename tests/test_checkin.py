@@ -36,7 +36,7 @@ def test_checkin_page_renders(client):
     assert "bento-container" in html
     assert "Confirm You Are Well" in html
     assert "btnCheckinPage" in html
-    assert "Immediate Escalation Cancellation" in html
+    assert "What Happens on Check-In" in html
 
 
 def test_checkin_pulse_submission(client):
@@ -44,5 +44,5 @@ def test_checkin_pulse_submission(client):
     response = client.post("/checkin", data={"pulse": "1"})
     assert response.status_code == 200
     html = response.get_data(as_text=True)
-    assert "Pulse Recorded &amp; Verified" in html
+    assert "Pulse Recorded" in html
 

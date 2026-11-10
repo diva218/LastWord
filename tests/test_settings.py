@@ -35,7 +35,7 @@ def test_settings_renders(client):
 
     assert "bento-container" in html
     assert "Cadence &amp; Demo Mode" in html
-    assert "30 Days (Standard Mode)" in html
-    assert "2 Minutes (Demo Mode)" in html
+    assert "30 Days (Standard)" in html
+    assert "2 Minutes (Demo)" in html
     assert "EventBridge Scanner" in html
 

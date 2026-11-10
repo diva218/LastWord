@@ -90,8 +90,6 @@
     const displayWrap = document.querySelector('#statusDisplayWrap');
     const nameEl = document.querySelector('#statusStateName');
     const descEl = document.querySelector('#statusStateDesc');
-    const telemetryEl = document.querySelector('#statusTelemetry');
-    const cycleChip = document.querySelector('#statusCycleChip');
 
     if (!statusTile || !displayWrap) return;
     if (prefersReducedMotion) return;
@@ -100,30 +98,22 @@
       {
         name: 'ACTIVE',
         tileClass: 'tile-green',
-        desc: 'Cadence verified. AWS EventBridge heartbeat active.',
-        telemetry: '[EVENTBRIDGE] Rule: cron(* * * * ? *) ➔ Lambda: PASS (0 alerts)',
-        chip: 'STATE 1/4',
+        desc: 'Check-ins verified. Vault sealed.',
       },
       {
         name: 'WARNED',
         tileClass: 'tile-amber',
-        desc: 'Check-in missed. Warning email dispatched via AWS SES.',
-        telemetry: '[SES] Dispatch: T-0 missed. 48-hour response window started.',
-        chip: 'STATE 2/4',
+        desc: 'Check-in missed. Warning sent.',
       },
       {
         name: 'GRACE',
         tileClass: 'tile-orange',
-        desc: 'Final buffer. Urgent SMS warning dispatched via AWS SNS.',
-        telemetry: '[SNS] SMS alert sent to primary number. Grace timer: 24h.',
-        chip: 'STATE 3/4',
+        desc: 'Final window. SMS alert dispatched.',
       },
       {
         name: 'RELEASED',
         tileClass: 'tile-red',
-        desc: 'No check-in received. Vault contents shared with trusted contacts.',
-        telemetry: '[KMS+S3] Signed URLs generated. 2 trusted contacts notified.',
-        chip: 'STATE 4/4',
+        desc: 'No check-in received. Contacts notified.',
       },
     ];
 
@@ -145,8 +135,6 @@
 
         if (nameEl) nameEl.textContent = nextState.name;
         if (descEl) descEl.textContent = nextState.desc;
-        if (telemetryEl) telemetryEl.textContent = nextState.telemetry;
-        if (cycleChip) cycleChip.textContent = nextState.chip;
 
         // Cross-fade in
         displayWrap.classList.remove('cross-fade-out');
@@ -155,7 +143,57 @@
   }
 
   // ------------------------------------------------------------------------
-  // 5. Interactive Check-in Button on Dashboard
+  // 5. Tile Hover Tilt — cursor-following translateX (--hx / --hbx)
+  // ------------------------------------------------------------------------
+  function initTileHover() {
+    // Only run on hover-capable pointer devices
+    if (prefersReducedMotion) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    // Tiles: ±8px
+    document.querySelectorAll('.bento-tile').forEach((tile) => {
+      let rafId = null;
+      tile.addEventListener('mousemove', (e) => {
+        if (rafId) return; // throttle
+        rafId = requestAnimationFrame(() => {
+          rafId = null;
+          const rect = tile.getBoundingClientRect();
+          const relX = (e.clientX - rect.left) / rect.width; // 0..1
+          const hx = (relX - 0.5) * 16; // -8..+8px
+          tile.style.setProperty('--hx', `${hx.toFixed(2)}px`);
+        });
+      });
+      tile.addEventListener('mouseleave', () => {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        tile.style.setProperty('--hx', '0px');
+      });
+    });
+
+    // Buttons and rows: ±4px
+    const nudgeEls = document.querySelectorAll(
+      '.btn-pill-black, .btn-pill-ghost, .btn-pill-electric, .btn-checkin-huge, .topbar-btn, .item-card, .contact-row'
+    );
+    nudgeEls.forEach((el) => {
+      let rafId = null;
+      el.addEventListener('mousemove', (e) => {
+        if (rafId) return;
+        rafId = requestAnimationFrame(() => {
+          rafId = null;
+          const rect = el.getBoundingClientRect();
+          const relX = (e.clientX - rect.left) / rect.width;
+          const hbx = (relX - 0.5) * 8; // -4..+4px
+          el.style.setProperty('--hbx', `${hbx.toFixed(2)}px`);
+        });
+      });
+      el.addEventListener('mouseleave', () => {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        el.style.setProperty('--hbx', '0px');
+      });
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 6. Interactive Check-in Button on Dashboard
   // ------------------------------------------------------------------------
   function initCheckinButton() {
     const btn = document.querySelector('#btnCheckin');
@@ -192,6 +230,7 @@
     initTileObserver();
     initCountdown();
     initStatusCycle();
+    initTileHover();
     initCheckinButton();
   }
 

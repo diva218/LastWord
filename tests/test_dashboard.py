@@ -36,8 +36,8 @@ def test_dashboard_renders(client):
     assert "bento-container" in html
     assert "countdownDigits" in html
     assert "btnCheckin" in html
-    assert "I'm OK — Check in" in html
-    assert "Escalation Stream" in html
+    assert "I'm OK" in html
+    assert "Last 3 Events" in html
 
 
 def test_checkin_endpoint(client):

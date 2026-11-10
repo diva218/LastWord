@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard — LastWord Vault{% endblock %}
+{% block title %}Dashboard — LastWord{% endblock %}
 
 {% block content %}
 <!-- Top Header Bar -->
@@ -10,7 +10,6 @@
     <span>LastWord</span>
   </a>
   <div style="display: flex; align-items: center; gap: 14px;">
-    <span class="tag-pill" style="margin-bottom: 0;">SWITCH #SW-9481</span>
     <a href="/" class="topbar-link">Exit to Home</a>
   </div>
 </header>
@@ -22,7 +21,7 @@
   <nav class="bento-tile tile-dark col-12 app-nav-tile" aria-label="Dashboard Tabs">
     <div style="display: flex; align-items: center; gap: 12px;">
       <span style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase;">Control Center</span>
-      <span class="contact-badge" style="background: rgba(25, 211, 138, 0.15); color: var(--signal-green);">● AWS EVENTBRIDGE RUNNING</span>
+      <span class="contact-badge" style="background: rgba(25, 211, 138, 0.15); color: var(--signal-green);">● ACTIVE</span>
     </div>
     <div class="app-nav-tabs">
       <a href="/dashboard" class="app-tab-btn active">Dashboard</a>
@@ -41,7 +40,7 @@
         <div>
           <div class="countdown-digits" id="countdownDigits">14d 08h 42m 19s</div>
           <div style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
-            Next check-in deadline: Dec 01, 2026 // 18:00 UTC
+            Next deadline: Dec 01, 2026 · 18:00 UTC
           </div>
         </div>
         <div class="countdown-svg-wrap" aria-hidden="true">
@@ -51,9 +50,6 @@
           </svg>
         </div>
       </div>
-      <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-top: 10px;">
-        Clicking the button sends an authenticated pulse to reset the 30-day countdown. If you miss this deadline, EventBridge triggers warning emails and SMS.
-      </p>
     </div>
 
     <!-- Big "I'm OK - Check in" button -->
@@ -69,86 +65,74 @@
   <section class="bento-tile tile-green col-5 status-tile" id="dashboardStatusTile">
     <div class="status-tile-header">
       <span class="tag-pill" style="margin-bottom: 0; background: rgba(0,0,0,0.18); color: inherit;">State Machine</span>
-      <span class="status-cycle-chip">HEALTHY</span>
     </div>
     <div class="status-main-display">
       <div class="status-state-name">{{ switch.state or "ACTIVE" }}</div>
-      <div class="status-state-desc">Your switch heartbeat is active and monitored by AWS Lambda every 60 seconds.</div>
+      <div class="status-state-desc">Switch is active and monitored.</div>
     </div>
     <div class="status-telemetry">
-      LAST CHECK-IN: {{ switch.last_checkin.strftime('%Y-%m-%d %H:%M:%S UTC') if switch.last_checkin else 'Today, 09:24 UTC' }}<br>
-      NEXT SCAN: AWS EventBridge rule cron(* * * * ? *)
+      LAST CHECK-IN: {{ switch.last_checkin.strftime('%Y-%m-%d %H:%M UTC') if switch.last_checkin else 'Today, 09:24 UTC' }}
     </div>
   </section>
 
-  <!-- Escalation Timeline Monospace Chat Bubbles (Col 6) -->
+  <!-- Recent Events (Col 6) -->
   <section class="bento-tile tile-dark col-6 chat-bubbles-tile">
     <div>
-      <div class="tile-subhead">Escalation Protocol &amp; Notifications</div>
+      <div class="tile-subhead">Recent Activity</div>
       <div style="font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase;">
-        Live Escalation Stream
+        Last 3 Events
       </div>
       <div class="chat-thread">
         <div class="chat-bubble bubble-ses">
           <div class="bubble-meta">
-            <span>AWS SES // EMAIL</span>
-            <span>SCHEDULED T-48h</span>
+            <span>EMAIL · SES</span>
+            <span>T-48h</span>
           </div>
-          <div>[REMINDER] Check-in warning ping scheduled before switch escalation.</div>
+          <div>Check-in reminder dispatched.</div>
         </div>
         <div class="chat-bubble bubble-warned">
           <div class="bubble-meta">
-            <span>AWS SNS // SMS</span>
-            <span>ESCALATION 01</span>
+            <span>SMS · SNS</span>
+            <span>T-0h</span>
           </div>
-          <div>[WARNED] If heartbeat missed, 48h warning sequence alerts primary number.</div>
+          <div>Warning — missed check-in. Grace started.</div>
         </div>
         <div class="chat-bubble bubble-release">
           <div class="bubble-meta">
-            <span>AWS S3+KMS // RELEASE</span>
-            <span>FINAL TRIGGER</span>
+            <span>VAULT · KMS+S3</span>
+            <span>FINAL</span>
           </div>
-          <div>[RELEASED] If check-ins stop past the Grace window, vault contents are shared with {{ contacts_count }} trusted contacts.</div>
+          <div>Vault shared with {{ contacts_count }} trusted contacts.</div>
         </div>
       </div>
     </div>
-    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 10px;">
-      Zero ambiguity. Monitored by CloudWatch &amp; AWS EventBridge.
-    </div>
   </section>
 
-  <!-- Cadence & Triggers Configuration Tile (Col 3) -->
+  <!-- Cadence Summary Tile (Col 3) -->
   <section class="bento-tile tile-dark col-3">
     <div>
-      <div class="tile-subhead">Switch Cadence</div>
+      <div class="tile-subhead">Cadence</div>
       <div class="tile-title-display" style="font-size: 26px;">30 Days</div>
-      <p class="tile-body-text" style="font-size: 12.5px; margin-bottom: 12px;">
-        Standard check-in interval. You can switch to <strong>2-minute Demo Mode</strong> in settings.
-      </p>
-      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--text-light);">
+      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.8; color: var(--text-muted); margin-top: 10px;">
         <div>WARN: 48 Hours</div>
         <div>GRACE: 24 Hours</div>
-        <div>SCANS: Every 60s</div>
       </div>
     </div>
     <a href="/settings" class="topbar-btn" style="text-align: center; justify-content: center; margin-top: 14px;">
-      Change Cadence →
+      Change →
     </a>
   </section>
 
-  <!-- Vault & Contacts Summary Tile (Col 3) -->
+  <!-- Vault Summary Tile (Col 3) -->
   <section class="bento-tile tile-bone col-3">
     <div>
-      <div class="tag-pill" style="margin-bottom: 10px;">Vault Overview</div>
+      <div class="tile-subhead">Vault</div>
       <div style="font-family: var(--font-display); font-size: 32px; font-weight: 800; text-transform: uppercase; line-height: 0.95; color: var(--text-dark);">
-        {{ vault_count }} Items Sealed
+        {{ vault_count }} Items
       </div>
-      <p style="font-size: 12.5px; color: var(--text-dark-muted); margin: 8px 0 14px; line-height: 1.45;">
-        Encrypted with AWS KMS envelope keys. Ready for delivery to {{ contacts_count }} trusted contacts.
+      <p style="font-size: 12.5px; color: var(--text-dark-muted); margin: 8px 0 0;">
+        {{ contacts_count }} trusted contacts assigned.
       </p>
-      <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-dark);">
-        S3 ENVELOPE: ACTIVE (AES-256)
-      </div>
     </div>
     <div style="display: flex; gap: 8px; margin-top: 14px;">
       <a href="/vault" class="btn-pill-black" style="font-size: 12px; padding: 8px 16px;">View Vault</a>
@@ -158,4 +142,3 @@
 
 </main>
 {% endblock %}
-

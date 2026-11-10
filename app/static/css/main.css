@@ -177,7 +177,7 @@ button {
 /* Base Bento Tile */
 .bento-tile {
   border-radius: var(--radius-tile);
-  padding: 24px;
+  padding: 28px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -189,18 +189,13 @@ button {
   transform: translateY(16px);
   transition: opacity 0.45s var(--ease-snappy),
               transform 0.45s var(--ease-snappy),
-              box-shadow var(--duration-hover) var(--ease-snappy);
+              box-shadow 0.45s var(--ease-snappy);
   transition-delay: var(--tile-delay, 0ms);
 }
 
 .bento-tile.in-view {
   opacity: 1;
   transform: translateY(0);
-}
-
-.bento-tile.in-view:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.45);
 }
 
 /* Tile Color Variants (Solid, Flat) */
@@ -351,7 +346,7 @@ button {
   border-radius: var(--radius-pill);
   font-weight: 700;
   font-size: 14.5px;
-  transition: transform var(--duration-hover) ease, background var(--duration-hover) ease;
+  transition: transform 450ms cubic-bezier(.22,1,.36,1), background var(--duration-hover) ease;
 }
 
 .btn-pill-black:hover {
@@ -369,7 +364,7 @@ button {
   border-radius: var(--radius-pill);
   font-weight: 700;
   font-size: 14.5px;
-  transition: transform var(--duration-hover) ease, background var(--duration-hover) ease;
+  transition: transform 450ms cubic-bezier(.22,1,.36,1), background var(--duration-hover) ease;
 }
 
 .btn-pill-electric:hover {
@@ -388,7 +383,7 @@ button {
   border-radius: var(--radius-pill);
   font-weight: 700;
   font-size: 14.5px;
-  transition: transform var(--duration-hover) ease, background var(--duration-hover) ease;
+  transition: transform 450ms cubic-bezier(.22,1,.36,1), background var(--duration-hover) ease;
 }
 
 .btn-pill-ghost:hover {
@@ -673,6 +668,7 @@ button {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   font-size: 13px;
+  transition: transform 450ms cubic-bezier(.22,1,.36,1), background var(--duration-hover) ease;
 }
 
 .contact-name {
@@ -780,10 +776,52 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: transform 450ms cubic-bezier(.22,1,.36,1), background var(--duration-hover) ease;
 }
 
 .item-card:hover {
   background: rgba(255, 255, 255, 0.07);
+}
+
+/* --------------------------------------------------------------------------
+   Hover Tilt System
+   Tiles slide toward the cursor (translateX via --hx CSS var set by JS).
+   Buttons and rows get a gentler nudge (--hbx, max ±4px).
+   Only on hover-capable pointer devices. Disabled under reduced-motion.
+   -------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bento-tile.in-view {
+      /* Override transform transition to 450ms snappy for hover */
+      transition: opacity 0.45s var(--ease-snappy),
+                  transform 450ms cubic-bezier(.22,1,.36,1),
+                  box-shadow 450ms cubic-bezier(.22,1,.36,1);
+    }
+    .bento-tile.in-view:hover {
+      transform: translateX(var(--hx, 0px)) translateY(-2px);
+      box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.5);
+    }
+    .btn-pill-black:hover,
+    .btn-pill-ghost:hover,
+    .btn-pill-electric:hover,
+    .topbar-btn:hover {
+      transform: translateX(var(--hbx, 0px)) translateY(-2px);
+    }
+    .btn-checkin-huge:hover {
+      transform: translateX(var(--hbx, 0px)) translateY(-2px);
+      background: #111a15;
+    }
+    .item-card:hover,
+    .contact-row:hover {
+      transform: translateX(var(--hbx, 0px)) translateY(-1px);
+    }
+  }
+  /* For reduced-motion: shadow only, no transform */
+  @media (prefers-reduced-motion: reduce) {
+    .bento-tile.in-view:hover {
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+    }
+  }
 }
 
 /* --------------------------------------------------------------------------

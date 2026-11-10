@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Audit Log — LastWord Tamper-Proof Ledger{% endblock %}
+{% block title %}Audit Log — LastWord{% endblock %}
 
 {% block content %}
 <!-- Top Header Bar -->
@@ -10,7 +10,7 @@
     <span>LastWord</span>
   </a>
   <div style="display: flex; align-items: center; gap: 14px;">
-    <span class="tag-pill" style="margin-bottom: 0;">AUDIT LEDGER // UTC</span>
+    <span class="tag-pill" style="margin-bottom: 0;">AUDIT LOG</span>
     <a href="/dashboard" class="topbar-link">Back to Dashboard</a>
   </div>
 </header>
@@ -22,7 +22,6 @@
   <nav class="bento-tile tile-dark col-12 app-nav-tile" aria-label="Dashboard Tabs">
     <div style="display: flex; align-items: center; gap: 12px;">
       <span style="font-family: var(--font-display); font-size: 20px; font-weight: 800; text-transform: uppercase;">Immutable Telemetry</span>
-      <span class="contact-badge" style="background: rgba(25, 211, 138, 0.15); color: var(--signal-green);">EVENTBRIDGE SCAN RATE: 60 SECONDS</span>
     </div>
     <div class="app-nav-tabs">
       <a href="/dashboard" class="app-tab-btn">Dashboard</a>
@@ -34,40 +33,35 @@
   </nav>
 
   <!-- Audit Hero Tile (Col 8) -->
-  <section class="bento-tile tile-bone col-8 headline-tile" style="min-height: 260px; padding: 28px;">
+  <section class="bento-tile tile-bone col-8 headline-tile" style="min-height: 240px; padding: 28px;">
     <div>
       <div class="tag-pill" style="margin-bottom: 12px;">Cryptographic Proof</div>
       <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--text-dark); margin-bottom: 12px;">
         Tamper-Proof Audit Trail
       </h1>
-      <p style="font-size: 14.5px; color: var(--text-dark-muted); max-width: 620px; line-height: 1.5;">
-        Every check-in verification, EventBridge scan cycle, state transition, and notification dispatch is recorded with immutable UTC timestamps and cryptographic checksums.
+      <p style="font-size: 14.5px; color: var(--text-dark-muted); max-width: 560px; line-height: 1.5;">
+        Every event logged with immutable UTC timestamps and checksums.
       </p>
-    </div>
-    <div style="display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
-      <span class="tag-pill" style="margin: 0; background: var(--ink); color: var(--bone);">SHA-256 LOG CHAIN</span>
-      <span class="tag-pill" style="margin: 0; background: var(--electric-blue); color: #ffffff;">AMAZON CLOUDWATCH SYNC</span>
     </div>
   </section>
 
-  <!-- Scanner Performance Tile (Col 4) -->
+  <!-- Scanner Stats Tile (Col 4) -->
   <section class="bento-tile tile-dark col-4">
     <div>
-      <div class="tile-subhead">Scanner Statistics</div>
+      <div class="tile-subhead">Scanner</div>
       <div class="tile-title-display" style="font-size: 26px;">1,440 Scans / Day</div>
-      <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 14px;">
-        Amazon EventBridge triggers the AWS Lambda evaluation routine once every 60 seconds without fail.
+      <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 0;">
+        Lambda evaluation every 60 seconds.
       </p>
-      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--signal-green);">
-        <div>LAST SCAN: 14 seconds ago</div>
-        <div>SCAN STATUS: 200 OK</div>
-        <div>MISSED CYCLES: 0</div>
-      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.6; color: var(--signal-green); margin-top: 14px;">
+      <div>LAST SCAN: 14 seconds ago</div>
+      <div>MISSED CYCLES: 0</div>
     </div>
   </section>
 
-  <!-- Monospace Chat Bubbles Audit Stream (Col 12) -->
-  <section class="bento-tile tile-dark col-12 chat-bubbles-tile">
+  <!-- Event Timeline (Col 12) -->
+  <section class="bento-tile tile-dark col-12">
     <div style="margin-bottom: 16px;">
       <div class="tile-subhead">Chronological Stream</div>
       <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
@@ -79,8 +73,8 @@
       {% for log in logs %}
       <div class="chat-bubble {% if 'PULSE' in log.action %}bubble-ses{% elif 'SCAN' in log.action %}bubble-warned{% elif 'VAULT' in log.action %}bubble-ses{% else %}bubble-release{% endif %}" style="max-width: 100%;">
         <div class="bubble-meta">
-          <span>EVENT_ID: #LOG-{{ log.id }} // {{ log.action }}</span>
-          <span>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S UTC') if log.created_at else 'Recent' }}</span>
+          <span>{{ log.action }}</span>
+          <span>{{ log.created_at.strftime('%Y-%m-%d %H:%M UTC') if log.created_at else 'Recent' }}</span>
         </div>
         <div style="font-size: 12.5px;">
           <code>{{ log.metadata_json }}</code>
@@ -92,4 +86,3 @@
 
 </main>
 {% endblock %}
-

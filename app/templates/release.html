@@ -25,13 +25,12 @@
       <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 14px;">
         Vault Shared with Your Trusted Contacts
       </h1>
-      <p style="font-size: 15px; opacity: 0.94; max-width: 620px; line-height: 1.5;">
-        The check-in schedule was not completed within the set window, and the Grace period has passed. As a trusted contact, your one-time access link has been activated for the items below.
+      <p style="font-size: 15px; opacity: 0.94; max-width: 560px; line-height: 1.5;">
+        Grace period elapsed. Your one-time access link is now active.
       </p>
     </div>
     <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
       <span class="tag-pill tag-pill-light" style="margin: 0;">TRUSTED CONTACT: {{ contact.name }}</span>
-      <span class="tag-pill tag-pill-light" style="margin: 0;">KMS SIGNATURE: VALID</span>
       <span class="tag-pill tag-pill-light" style="margin: 0;">EXPIRING: 168 HOURS</span>
     </div>
   </section>
@@ -42,16 +41,12 @@
       <div class="tile-subhead">Authentication Token</div>
       <div class="tile-title-display" style="font-size: 26px;">Token Verified</div>
       <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 14px;">
-        Cryptographically signed release token dispatched via AWS SES.
+        Signed release token dispatched via AWS SES.
       </p>
       <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--electric-blue); word-break: break-all;">
         <div>TOKEN: {{ token }}</div>
-        <div>ISSUED: Recently</div>
         <div>STATUS: UNLOCKED</div>
       </div>
-    </div>
-    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 14px;">
-      Direct S3 presigned KMS download links generated below.
     </div>
   </section>
 
@@ -79,10 +74,10 @@
 
         <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
           <a href="#" class="topbar-btn" onclick="alert('Download started from secure S3 signed URL: {{ item.file_s3_key }}')">
-            ⬇ Download Encrypted Package (.enc)
+            ⬇ Download (.enc)
           </a>
           <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
-            S3 Bucket Location: {{ item.file_s3_key }}
+            {{ item.file_s3_key }}
           </span>
         </div>
       </div>
@@ -92,4 +87,3 @@
 
 </main>
 {% endblock %}
-

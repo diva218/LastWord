@@ -34,7 +34,7 @@ def test_vault_renders(client):
     html = response.get_data(as_text=True)
 
     assert "bento-container" in html
-    assert "KMS ENVELOPE ENCRYPTION" in html
-    assert "Bitwarden Master Recovery" in html
+    assert "Zero-Knowledge Envelope" in html
+    assert "Bitwarden" in html
     assert "SEALED" in html
 
