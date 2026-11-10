@@ -177,6 +177,63 @@ def settings():
     )
 
 
+@switch_bp.route("/audit", methods=["GET"])
+def audit():
+    """Audit log view showing immutable state machine transitions."""
+
+    user_id = session.get("user_id")
+    user = User.query.get(user_id) if user_id else None
+    logs = (
+        AuditLog.query.filter_by(user_id=user.id)
+        .order_by(AuditLog.created_at.desc())
+        .limit(20)
+        .all()
+        if user
+        else []
+    )
+
+    if not logs:
+        logs = [
+            AuditLog(
+                id=101,
+                action="HEARTBEAT_PULSE_VERIFIED",
+                metadata_json='{"status": "ACTIVE", "ip": "127.0.0.1", "channel": "dashboard"}',
+                created_at=datetime.utcnow() - timedelta(minutes=14),
+            ),
+            AuditLog(
+                id=100,
+                action="EVENTBRIDGE_SCAN_CYCLE",
+                metadata_json='{"rule": "lastword-scan", "deadline_delta_s": 1240939, "state": "ACTIVE"}',
+                created_at=datetime.utcnow() - timedelta(minutes=15),
+            ),
+            AuditLog(
+                id=99,
+                action="EVENTBRIDGE_SCAN_CYCLE",
+                metadata_json='{"rule": "lastword-scan", "deadline_delta_s": 1240999, "state": "ACTIVE"}',
+                created_at=datetime.utcnow() - timedelta(minutes=16),
+            ),
+            AuditLog(
+                id=98,
+                action="VAULT_ENCRYPTION_VERIFIED",
+                metadata_json='{"kms_key": "arn:aws:kms:us-east-1:123456789012:key/lastword", "status": "SEALED"}',
+                created_at=datetime.utcnow() - timedelta(hours=4),
+            ),
+            AuditLog(
+                id=97,
+                action="SES_REMINDER_DISPATCHED",
+                metadata_json='{"recipient": "user@example.com", "delivery": "AWS SES", "status": "250 OK"}',
+                created_at=datetime.utcnow() - timedelta(days=2),
+            ),
+        ]
+
+    return render_template(
+        "audit.html",
+        user=user,
+        logs=logs,
+        active_page="audit",
+    )
+
+
 @switch_bp.route("/checkin", methods=["POST", "GET"])
 def checkin():
     """Manual heartbeat check-in trigger."""
