@@ -234,6 +234,39 @@ def audit():
     )
 
 
+@switch_bp.route("/release", methods=["GET"])
+@switch_bp.route("/release/<token>", methods=["GET"])
+def release(token=None):
+    """Public/beneficiary release portal for single-use download links."""
+
+    token_str = token or "tok_demo_7f9e12"
+    contact = Contact(id=1, name="Sarah Vance", email="sarah.vance@example.com")
+    unlocked_items = [
+        VaultItem(
+            id=1,
+            title="Bitwarden Master Password & Recovery Kit",
+            note_text="Primary Master Password: 'Correct-Horse-Battery-Staple-2026!'\nRecovery Key: 4910-8491-0029-4819\nEmergency instructions: Log in to primary vault and distribute family estate documents.",
+            file_s3_key="s3://lastword-vault-prod/users/1/bitwarden_keys.enc",
+            created_at=datetime.utcnow() - timedelta(days=12),
+        ),
+        VaultItem(
+            id=3,
+            title="Personal Farewell Letters & Financial Location Guide",
+            note_text="Dear Sarah,\nAll insurance policy numbers and safety deposit box keys are located in our home safe (Combination 42-18-09). You have full authorization to execute directives.",
+            file_s3_key="s3://lastword-vault-prod/users/1/farewell_letters.enc",
+            created_at=datetime.utcnow() - timedelta(days=45),
+        ),
+    ]
+
+    return render_template(
+        "release.html",
+        token=token_str,
+        contact=contact,
+        items=unlocked_items,
+        active_page="release",
+    )
+
+
 @switch_bp.route("/checkin", methods=["POST", "GET"])
 def checkin():
     """Manual heartbeat check-in trigger."""

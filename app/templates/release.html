@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Emergency Vault Release — LastWord{% endblock %}
+
+{% block content %}
+<!-- Top Header Bar -->
+<header class="topbar">
+  <a href="/" class="topbar-brand" aria-label="LastWord Home">
+    <span class="brand-indicator" style="background: var(--red);" aria-hidden="true"></span>
+    <span>LastWord</span>
+  </a>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span class="tag-pill" style="margin-bottom: 0; background: var(--red); color: #ffffff;">STATUS: RELEASED</span>
+    <a href="/" class="topbar-link">Home</a>
+  </div>
+</header>
+
+<!-- Main Release Bento Grid -->
+<main class="bento-container" aria-label="LastWord Release Bento Grid">
+
+  <!-- Release Hero Tile (Col 8) -->
+  <section class="bento-tile tile-red col-8 headline-tile" style="min-height: 280px; padding: 32px;">
+    <div>
+      <div class="tag-pill tag-pill-light" style="margin-bottom: 12px;">Fail-Safe Protocol Executed</div>
+      <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 14px;">
+        Vault Released to Beneficiary
+      </h1>
+      <p style="font-size: 15px; opacity: 0.94; max-width: 620px; line-height: 1.5;">
+        The switch owner has not checked in within their scheduled interval, and the emergency Grace period has elapsed. As designated recipient, your single-use cryptographic token has unlocked the items below.
+      </p>
+    </div>
+    <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+      <span class="tag-pill tag-pill-light" style="margin: 0;">BENEFICIARY: {{ contact.name }}</span>
+      <span class="tag-pill tag-pill-light" style="margin: 0;">KMS SIGNATURE: VALID</span>
+      <span class="tag-pill tag-pill-light" style="margin: 0;">EXPIRING: 168 HOURS</span>
+    </div>
+  </section>
+
+  <!-- Authorization Status Tile (Col 4) -->
+  <section class="bento-tile tile-dark col-4">
+    <div>
+      <div class="tile-subhead">Authentication Token</div>
+      <div class="tile-title-display" style="font-size: 26px;">Token Verified</div>
+      <p class="tile-body-text" style="font-size: 13px; margin: 8px 0 14px;">
+        Cryptographically signed release token dispatched via AWS SES.
+      </p>
+      <div style="font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--electric-blue); word-break: break-all;">
+        <div>TOKEN: {{ token }}</div>
+        <div>ISSUED: Recently</div>
+        <div>STATUS: UNLOCKED</div>
+      </div>
+    </div>
+    <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-top: 14px;">
+      Direct S3 presigned KMS download links generated below.
+    </div>
+  </section>
+
+  <!-- Unlocked Items Tile (Col 12) -->
+  <section class="bento-tile tile-dark col-12">
+    <div style="margin-bottom: 18px;">
+      <div class="tile-subhead">Decrypted Inventory</div>
+      <div style="font-family: var(--font-display); font-size: 26px; font-weight: 800; text-transform: uppercase;">
+        Authorized Assets for {{ contact.name }}
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      {% for item in items %}
+      <div class="item-card" style="flex-direction: column; align-items: flex-start; gap: 12px; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: var(--electric-blue); font-weight: 700;">#ASSET-0{{ item.id }}</span>
+            <span style="font-size: 17px; font-weight: 700; color: var(--bone); margin-left: 8px;">{{ item.title }}</span>
+          </div>
+          <span class="contact-badge" style="background: rgba(25, 211, 138, 0.15); color: var(--signal-green);">DECRYPTED (AES-256)</span>
+        </div>
+
+        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 16px; width: 100%; font-family: var(--font-mono); font-size: 12.5px; color: var(--bone); white-space: pre-wrap; line-height: 1.6;">{{ item.note_text }}</div>
+
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <a href="#" class="topbar-btn" onclick="alert('Download started from secure S3 signed URL: {{ item.file_s3_key }}')">
+            ⬇ Download Encrypted Package (.enc)
+          </a>
+          <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">
+            S3 Bucket Location: {{ item.file_s3_key }}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</main>
+{% endblock %}
