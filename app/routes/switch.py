@@ -76,6 +76,49 @@ def dashboard():
     )
 
 
+@switch_bp.route("/vault", methods=["GET"])
+def vault():
+    """Vault view showing KMS encrypted assets and deposit forms."""
+
+    user_id = session.get("user_id")
+    user = User.query.get(user_id) if user_id else None
+    contacts = Contact.query.filter_by(user_id=user.id).all() if user else []
+    items = VaultItem.query.filter_by(user_id=user.id).all() if user else []
+
+    if not items:
+        items = [
+            VaultItem(
+                id=1,
+                title="Bitwarden Master Recovery Password & 2FA Keys",
+                note_text="Primary vault emergency recovery phrase and emergency access token for Sarah.",
+                file_s3_key="s3://lastword-vault-prod/users/1/bitwarden_keys.enc",
+                created_at=datetime.utcnow() - timedelta(days=12),
+            ),
+            VaultItem(
+                id=2,
+                title="LLC Operating Agreement & Swiss Bank Instructions",
+                note_text="Legal directives for attorney Michael Chen regarding corporate holdings.",
+                file_s3_key="s3://lastword-vault-prod/users/1/legal_directives.enc",
+                created_at=datetime.utcnow() - timedelta(days=28),
+            ),
+            VaultItem(
+                id=3,
+                title="Personal Farewell Letters & Family Photos",
+                note_text="Private sealed message delivered upon confirmed silence.",
+                file_s3_key="s3://lastword-vault-prod/users/1/farewell_letters.enc",
+                created_at=datetime.utcnow() - timedelta(days=45),
+            ),
+        ]
+
+    return render_template(
+        "vault.html",
+        user=user,
+        items=items,
+        contacts=contacts,
+        active_page="vault",
+    )
+
+
 @switch_bp.route("/checkin", methods=["POST", "GET"])
 def checkin():
     """Manual heartbeat check-in trigger."""
