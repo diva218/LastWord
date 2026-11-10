@@ -34,7 +34,7 @@ def test_release_renders(client):
     html = response.get_data(as_text=True)
 
     assert "bento-container" in html
-    assert "Vault Released to Beneficiary" in html
+    assert "Vault Shared with Your Trusted Contacts" in html
     assert "Sarah Vance" in html
     assert "DECRYPTED (AES-256)" in html
     assert "tok_test_123" in html

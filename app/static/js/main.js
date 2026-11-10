@@ -121,8 +121,8 @@
       {
         name: 'RELEASED',
         tileClass: 'tile-red',
-        desc: 'Silence confirmed. Expiring S3 links emailed to trusted contacts.',
-        telemetry: '[KMS+S3] Signed URLs generated. 2 beneficiaries notified.',
+        desc: 'No check-in received. Vault contents shared with trusted contacts.',
+        telemetry: '[KMS+S3] Signed URLs generated. 2 trusted contacts notified.',
         chip: 'STATE 4/4',
       },
     ];

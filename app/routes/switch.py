@@ -103,9 +103,9 @@ def vault():
             ),
             VaultItem(
                 id=3,
-                title="Personal Farewell Letters & Family Photos",
-                note_text="Private sealed message delivered upon confirmed silence.",
-                file_s3_key="s3://lastword-vault-prod/users/1/farewell_letters.enc",
+                title="Personal Messages & Handover Notes",
+                note_text="Personal message to be shared with trusted contacts if check-ins stop.",
+                file_s3_key="s3://lastword-vault-prod/users/1/handover_notes.enc",
                 created_at=datetime.utcnow() - timedelta(days=45),
             ),
         ]
@@ -121,7 +121,7 @@ def vault():
 
 @switch_bp.route("/contacts", methods=["GET"])
 def contacts():
-    """Contacts view showing authorized beneficiaries."""
+    """Contacts view showing trusted contacts."""
 
     user_id = session.get("user_id")
     user = User.query.get(user_id) if user_id else None
@@ -237,7 +237,7 @@ def audit():
 @switch_bp.route("/release", methods=["GET"])
 @switch_bp.route("/release/<token>", methods=["GET"])
 def release(token=None):
-    """Public/beneficiary release portal for single-use download links."""
+    """Public/trusted contact release portal for single-use download links."""
 
     token_str = token or "tok_demo_7f9e12"
     contact = Contact(id=1, name="Sarah Vance", email="sarah.vance@example.com")
@@ -245,15 +245,15 @@ def release(token=None):
         VaultItem(
             id=1,
             title="Bitwarden Master Password & Recovery Kit",
-            note_text="Primary Master Password: 'Correct-Horse-Battery-Staple-2026!'\nRecovery Key: 4910-8491-0029-4819\nEmergency instructions: Log in to primary vault and distribute family estate documents.",
+            note_text="Primary Master Password: 'Correct-Horse-Battery-Staple-2026!'\nRecovery Key: 4910-8491-0029-4819\nEmergency handover notes are included. Distribute access as instructed.",
             file_s3_key="s3://lastword-vault-prod/users/1/bitwarden_keys.enc",
             created_at=datetime.utcnow() - timedelta(days=12),
         ),
         VaultItem(
             id=3,
-            title="Personal Farewell Letters & Financial Location Guide",
-            note_text="Dear Sarah,\nAll insurance policy numbers and safety deposit box keys are located in our home safe (Combination 42-18-09). You have full authorization to execute directives.",
-            file_s3_key="s3://lastword-vault-prod/users/1/farewell_letters.enc",
+            title="Personal Messages & Account Handover Guide",
+            note_text="Dear Sarah,\nAll insurance policy numbers and safety deposit box keys are located in our home safe (Combination 42-18-09). Full instructions are included in the handover notes.",
+            file_s3_key="s3://lastword-vault-prod/users/1/handover_notes.enc",
             created_at=datetime.utcnow() - timedelta(days=45),
         ),
     ]

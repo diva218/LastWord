@@ -37,7 +37,7 @@ def test_landing_page_renders_successfully(client):
     assert "LastWord" in html
     assert "bento-container" in html
     assert "bento-tile" in html
-    assert "Say" in html and "before" in html
+    assert "quiet" in html and "still get it" in html
     assert "countdownDigits" in html
     assert "KMS Encrypted" in html
     assert "Create your switch" in html

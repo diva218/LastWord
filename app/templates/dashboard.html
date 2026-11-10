@@ -36,7 +36,7 @@
   <!-- Large Countdown & Check-in Tile (Col 7) -->
   <section class="bento-tile tile-dark col-7 countdown-tile">
     <div>
-      <div class="tile-subhead">Live Dead Man's Switch Countdown</div>
+      <div class="tile-subhead">Live Check-In Countdown</div>
       <div class="countdown-flex-row">
         <div>
           <div class="countdown-digits" id="countdownDigits">14d 08h 42m 19s</div>
@@ -108,7 +108,7 @@
             <span>AWS S3+KMS // RELEASE</span>
             <span>FINAL TRIGGER</span>
           </div>
-          <div>[RELEASED] If silence continues past GRACE, expiring S3 links unlock for {{ contacts_count }} contacts.</div>
+          <div>[RELEASED] If check-ins stop past the Grace window, vault contents are shared with {{ contacts_count }} trusted contacts.</div>
         </div>
       </div>
     </div>
@@ -144,7 +144,7 @@
         {{ vault_count }} Items Sealed
       </div>
       <p style="font-size: 12.5px; color: var(--text-dark-muted); margin: 8px 0 14px; line-height: 1.45;">
-        Encrypted with AWS KMS envelope keys. Ready for delivery to {{ contacts_count }} trusted beneficiaries.
+        Encrypted with AWS KMS envelope keys. Ready for delivery to {{ contacts_count }} trusted contacts.
       </p>
       <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-dark);">
         S3 ENVELOPE: ACTIVE (AES-256)

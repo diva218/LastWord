@@ -21,16 +21,16 @@
   <!-- Release Hero Tile (Col 8) -->
   <section class="bento-tile tile-red col-8 headline-tile" style="min-height: 280px; padding: 32px;">
     <div>
-      <div class="tag-pill tag-pill-light" style="margin-bottom: 12px;">Fail-Safe Protocol Executed</div>
+      <div class="tag-pill tag-pill-light" style="margin-bottom: 12px;">No check-in received. Contacts notified.</div>
       <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.4rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 14px;">
-        Vault Released to Beneficiary
+        Vault Shared with Your Trusted Contacts
       </h1>
       <p style="font-size: 15px; opacity: 0.94; max-width: 620px; line-height: 1.5;">
-        The switch owner has not checked in within their scheduled interval, and the emergency Grace period has elapsed. As designated recipient, your single-use cryptographic token has unlocked the items below.
+        The check-in schedule was not completed within the set window, and the Grace period has passed. As a trusted contact, your one-time access link has been activated for the items below.
       </p>
     </div>
     <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
-      <span class="tag-pill tag-pill-light" style="margin: 0;">BENEFICIARY: {{ contact.name }}</span>
+      <span class="tag-pill tag-pill-light" style="margin: 0;">TRUSTED CONTACT: {{ contact.name }}</span>
       <span class="tag-pill tag-pill-light" style="margin: 0;">KMS SIGNATURE: VALID</span>
       <span class="tag-pill tag-pill-light" style="margin: 0;">EXPIRING: 168 HOURS</span>
     </div>
@@ -60,7 +60,7 @@
     <div style="margin-bottom: 18px;">
       <div class="tile-subhead">Decrypted Inventory</div>
       <div style="font-family: var(--font-display); font-size: 26px; font-weight: 800; text-transform: uppercase;">
-        Authorized Assets for {{ contact.name }}
+        Items Shared with {{ contact.name }}
       </div>
     </div>
 

@@ -38,15 +38,15 @@
     <div>
       <div class="tag-pill" style="margin-bottom: 12px;">Fail-Safe Delivery Recipients</div>
       <h1 style="font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.01em; color: var(--text-dark); margin-bottom: 12px;">
-        {{ contacts|length }} Designated Beneficiaries
+        {{ contacts|length }} Trusted Contacts
       </h1>
       <p style="font-size: 14.5px; color: var(--text-dark-muted); max-width: 620px; line-height: 1.5;">
-        These contacts will only receive access if your dead man's switch transitions to the <strong>RELEASED</strong> state. Each contact receives a cryptographically signed, expiring S3 URL that unlocks strictly the vault items assigned to them.
+        These contacts only receive access if you stop checking in and the switch reaches the <strong>RELEASED</strong> state. Each contact receives a cryptographically signed, expiring S3 URL that unlocks strictly the vault items assigned to them.
       </p>
     </div>
     <div style="display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap;">
       <span class="tag-pill" style="margin: 0; background: var(--ink); color: var(--bone);">AWS SES VERIFIED</span>
-      <span class="tag-pill" style="margin: 0; background: var(--signal-green); color: var(--ink);">ACTIVE HEARTBEAT ROUTING</span>
+      <span class="tag-pill" style="margin: 0; background: var(--signal-green); color: var(--ink);">ACTIVE CHECK-IN ROUTING</span>
     </div>
   </section>
 
@@ -63,7 +63,7 @@
     </div>
     <div>
       <button type="button" class="btn-pill-black" style="width: 100%; justify-content: center; font-size: 14px;" onclick="alert('Demo: 2 verified contacts are pre-configured below.')">
-        + Add Beneficiary
+        + Add Trusted Contact
       </button>
     </div>
   </section>
@@ -71,7 +71,7 @@
   <!-- Contacts List (Col 8) -->
   <section class="bento-tile tile-dark col-8">
     <div style="margin-bottom: 16px;">
-      <div class="tile-subhead">Registered Beneficiaries</div>
+      <div class="tile-subhead">Your Trusted Contacts</div>
       <div style="font-family: var(--font-display); font-size: 24px; font-weight: 800; text-transform: uppercase;">
         Authorized Contacts
       </div>
@@ -89,7 +89,7 @@
             {{ contact.email }}
           </div>
           <div style="font-size: 12px; color: var(--text-muted);">
-            Assigned: {% if loop.index == 1 %}2 Vault Items (Bitwarden Key, Farewell Letters){% else %}1 Vault Item (LLC Directives){% endif %}
+            Assigned: {% if loop.index == 1 %}2 Vault Items (Bitwarden Key, Handover Notes){% else %}1 Vault Item (LLC Directives){% endif %}
           </div>
         </div>
         <div style="text-align: right; flex-shrink: 0;">
@@ -120,7 +120,7 @@
             <span>ISOLATION</span>
             <span>SECURE</span>
           </div>
-          <div>Beneficiary Sarah cannot see items assigned exclusively to Michael.</div>
+          <div>Sarah cannot see items assigned exclusively to Michael.</div>
         </div>
         <div class="chat-bubble bubble-release">
           <div class="bubble-meta">

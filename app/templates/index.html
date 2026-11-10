@@ -24,17 +24,20 @@
   <section class="bento-tile tile-bone col-8 headline-tile">
     <div>
       <div class="tag-pill">
-        <span>● AWS KMS + S3 Dead Man's Switch</span>
+        <span>● AWS KMS + S3 · Secure Check-In Vault</span>
       </div>
       <h1 class="hero-title">
-        <span class="hero-word"><span class="hero-word-inner">Say</span></span>
-        <span class="hero-word"><span class="hero-word-inner">it</span></span>
-        <span class="hero-word"><span class="hero-word-inner">before</span></span><br>
+        <span class="hero-word"><span class="hero-word-inner">If</span></span>
         <span class="hero-word"><span class="hero-word-inner">you</span></span>
-        <span class="hero-word"><span class="hero-word-inner">can't.</span></span>
+        <span class="hero-word"><span class="hero-word-inner">go</span></span>
+        <span class="hero-word"><span class="hero-word-inner">quiet,</span></span><br>
+        <span class="hero-word"><span class="hero-word-inner">they'll</span></span>
+        <span class="hero-word"><span class="hero-word-inner">still</span></span>
+        <span class="hero-word"><span class="hero-word-inner">get</span></span>
+        <span class="hero-word"><span class="hero-word-inner">it.</span></span>
       </h1>
       <p class="hero-desc">
-        LastWord is a Dead Man's Switch Vault: a secure cloud vault for critical instructions, passwords, and encrypted documents in S3 sealed with AWS KMS. You set a check-in frequency (30 days, or 2 minutes in demo mode). EventBridge and Lambda scan every minute. If you miss a check-in, the state machine escalates Active &rarr; Warned &rarr; Grace &rarr; Released. If silence continues, single-use expiring S3 links are delivered to trusted contacts.
+        LastWord lets you set a check-in schedule. If you stop checking in — whether you're travelling solo, in hospital, or simply unreachable — your chosen files and messages are shared with the people you trust. Powered by AWS KMS and S3.
       </p>
     </div>
     <div class="hero-actions">
@@ -106,7 +109,7 @@
   <!-- Tile 5: Trusted Contacts Tile (Col 4) -->
   <section class="bento-tile tile-dark col-4 contacts-tile">
     <div>
-      <div class="tile-subhead">Authorized Beneficiaries</div>
+      <div class="tile-subhead">Your Trusted Contacts</div>
       <div class="tile-title-display" style="font-size: 26px;">Trusted Contacts</div>
       <div class="contacts-list">
         <div class="contact-row">
@@ -142,7 +145,7 @@
           <div class="step-num">01</div>
           <div>
             <div class="step-heading">Deposit</div>
-            <div class="step-text">Store master passwords, letters, and estate records sealed in S3 with KMS.</div>
+            <div class="step-text">Store passwords, documents, and instructions sealed in S3 with KMS.</div>
           </div>
         </div>
         <div class="step-box">
@@ -163,7 +166,7 @@
           <div class="step-num">04</div>
           <div>
             <div class="step-heading">Release</div>
-            <div class="step-text">If silence persists, expiring S3 links are delivered to designated contacts.</div>
+            <div class="step-text">If check-ins stop, expiring S3 links are shared with the people you chose.</div>
           </div>
         </div>
       </div>
@@ -216,7 +219,7 @@
         Your words. Protected until needed.
       </h2>
       <p style="font-size: 15px; opacity: 0.92; margin-bottom: 22px;">
-        Set up your encrypted dead man's switch in 2 minutes. Keep your critical accounts and loved ones protected with automated AWS fail-safe infrastructure.
+        Set up your check-in schedule in 2 minutes. If you ever stop checking in, LastWord ensures the right people get access to what you chose.
       </p>
       <div style="display: flex; justify-content: center; gap: 14px;">
         <a href="/dashboard" class="btn-pill-black" style="font-size: 15px; padding: 15px 34px;">
