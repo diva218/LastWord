@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}LastWord — Dead Man's Switch for Your Most Critical Assets{% endblock %}</title>
+  <meta name="description" content="LastWord is an encrypted fail-safe dead man's switch that monitors your heartbeat and releases your critical vault items to trusted contacts if you ever go silent.">
+
+  <!-- Google Fonts: Inter, Inter Tight, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Inter+Tight:wght@700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet & Design Tokens -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Custom Soft Cursor Glow (Landing Page) -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Page Root Wrapper -->
+  <div class="page-wrapper">
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- Vendored Core Libraries -->
+  <script src="{{ url_for('static', filename='vendor/gsap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/ScrollTrigger.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/lenis.min.js') }}"></script>
+
+  <!-- Motion & Animation Controller -->
+  <script src="{{ url_for('static', filename='js/motion.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
